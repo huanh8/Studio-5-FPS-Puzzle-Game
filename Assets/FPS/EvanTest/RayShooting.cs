@@ -47,7 +47,7 @@ namespace Unity.FPS.Gameplay
             }
             lineRenderer.enabled = true;
 
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.2f);
 
             lineRenderer.enabled = false;
         }
