@@ -164,7 +164,7 @@ namespace Unity.FPS.Game
         private Queue<Rigidbody> m_PhysicalAmmoPool;
 
         void Awake()
-        {
+        {   
             m_CurrentAmmo = MaxAmmo;
             m_CarriedPhysicalBullets = HasPhysicalBullets ? ClipSize : 0;
             m_LastMuzzlePosition = WeaponMuzzle.position;
@@ -447,9 +447,18 @@ namespace Unity.FPS.Game
             for (int i = 0; i < bulletsPerShotFinal; i++)
             {
                 Vector3 shotDirection = GetShotDirectionWithinSpread(WeaponMuzzle);
-                ProjectileBase newProjectile = Instantiate(ProjectilePrefab, WeaponMuzzle.position,
-                    Quaternion.LookRotation(shotDirection));
-                newProjectile.Shoot(this);
+                // ProjectileBase newProjectile = Instantiate(ProjectilePrefab, WeaponMuzzle.position,
+                //     Quaternion.LookRotation(shotDirection));
+                // newProjectile.Shoot(this);
+                RaycastHit hit;
+                if(Physics.Raycast(WeaponMuzzle.position, shotDirection, out hit, 20f))
+                {
+                    Debug.Log("hit something");
+                }
+                else
+                {
+                    Debug.Log("hit nothing");
+                }
             }
 
             // muzzle flash
