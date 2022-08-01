@@ -436,6 +436,7 @@ MonoBehaviour:
   EffectPrefab: {fileID: 1676168441696680379, guid: dd2b99386b988714a9c638818ad3027c,
     type: 3}
   fpsCam: {fileID: 0}
+  delayTime: 0.05
   range: 1000
   HitOffset: 0.1
 --- !u!1 &2867801751256125023
@@ -1215,6 +1216,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380987859403064754, guid: b28f968a97b77894fbf68eed5fe03010,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380987859403064754, guid: b28f968a97b77894fbf68eed5fe03010,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5380987859403064754, guid: b28f968a97b77894fbf68eed5fe03010,
         type: 3}

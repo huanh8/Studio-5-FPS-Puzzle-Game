@@ -12,7 +12,7 @@ namespace Unity.FPS.Gameplay
         public GameObject EffectPrefab;
         public Camera fpsCam;
 
-        public float delayTime = 0.05f;
+        public float delayTime = 0.04f;
 
         public float range = 1000f;
         public float HitOffset = 0;
@@ -51,7 +51,6 @@ namespace Unity.FPS.Gameplay
                 float distance = Vector3.Distance(hit.point, transform.position);
                 Debug.Log(distance);
 
-
                 lightPrefab.SetActive(true);
                 //change lightprefab's localscale.z to the distance between the hit point and the player
                 lightPrefab.transform.localScale =
@@ -64,7 +63,8 @@ namespace Unity.FPS.Gameplay
             }
             else
             { //End laser position if doesn't collide with object
-
+                lightPrefab.transform.localScale =
+                    new Vector3(lightPrefab.transform.localScale.x, lightPrefab.transform.localScale.y, 500f);
             }
         }
 
