@@ -143,6 +143,7 @@ namespace Unity.FPS.Gameplay
                     m_InputHandler.GetFireInputDown(),
                     m_InputHandler.GetFireInputHeld(),
                     m_InputHandler.GetFireInputReleased());
+                
 
                 // Handle accumulating recoil
                 if (hasFired)
