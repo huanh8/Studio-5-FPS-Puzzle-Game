@@ -13,4 +13,9 @@ public class trigger : ScriptableObject
     public int angle;
     public int chargeTime;
     public bool isTriggerOn;
+
+    public void Print()
+    {
+        Debug.Log(triggerName + "," + hitInfo);
+    }
 }
