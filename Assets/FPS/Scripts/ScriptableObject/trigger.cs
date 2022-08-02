@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Trigger", menuName = "Trigger")]
-public class trigger : ScriptableObject
+public class Trigger : ScriptableObject
 {
     public string triggerName;
 
@@ -14,7 +14,7 @@ public class trigger : ScriptableObject
     public int chargeTime;
     public bool isTriggerOn;
 
-    public void Print()
+    public void print()
     {
         Debug.Log(triggerName + "," + hitInfo);
     }
