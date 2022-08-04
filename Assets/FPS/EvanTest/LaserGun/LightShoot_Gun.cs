@@ -39,18 +39,17 @@ namespace Unity.FPS.Gameplay
             }
         }
 
+
         void ShootRay()
         {
             RaycastHit hit;
 
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
-                Debug.Log(hit.transform.name);
+                if(hit.collider.gameObject.GetComponent<Trigger>())
+                hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
 
-                //get the ditance between the hit point and the player
                 float distance = Vector3.Distance(hit.point, transform.position);
-                Debug.Log(distance);
-
                 lightPrefab.SetActive(true);
                 //change lightprefab's localscale.z to the distance between the hit point and the player
                 lightPrefab.transform.localScale =

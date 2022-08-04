@@ -432,6 +432,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec96117728853e4eaff30db557bbe42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myTriggerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   lightPrefab: {fileID: 7822870397517531822}
   EffectPrefab: {fileID: 1676168441696680379, guid: dd2b99386b988714a9c638818ad3027c,
     type: 3}
@@ -1205,12 +1220,17 @@ PrefabInstance:
     - target: {fileID: 5380987858571129555, guid: b28f968a97b77894fbf68eed5fe03010,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 5380987858571357939, guid: b28f968a97b77894fbf68eed5fe03010,
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380987858571357939, guid: b28f968a97b77894fbf68eed5fe03010,
+        type: 3}
+      propertyPath: m_TagString
+      value: CylinderFormGfround
       objectReference: {fileID: 0}
     - target: {fileID: 5380987859403064754, guid: b28f968a97b77894fbf68eed5fe03010,
         type: 3}
@@ -1306,6 +1326,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380987859403064757, guid: b28f968a97b77894fbf68eed5fe03010,
+        type: 3}
+      propertyPath: m_TagString
+      value: LaserLight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b28f968a97b77894fbf68eed5fe03010, type: 3}
