@@ -6,6 +6,7 @@ public class MovingPlatform : MonoBehaviour
 {
     [SerializeField] private WaypointPath waypointPath;
     [SerializeField] private float speed;
+    public bool canMove;
 
     private int targetWaypointIndex;
     private Transform prevWaypoint;
@@ -16,20 +17,24 @@ public class MovingPlatform : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canMove = false;
         TargetNextWaypoint();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        elapsedTime += Time.deltaTime;
-
-        float elapsedPercentage = elapsedTime / timeToWaypoint;
-        transform.position = Vector3.Lerp(prevWaypoint.position, targetWaypoint.position, elapsedPercentage);
-
-        if(elapsedPercentage >= 1)
+        if(canMove == true)
         {
-            TargetNextWaypoint();
+            elapsedTime += Time.deltaTime;
+
+            float elapsedPercentage = elapsedTime / timeToWaypoint;
+            transform.position = Vector3.Lerp(prevWaypoint.position, targetWaypoint.position, elapsedPercentage);
+
+            if(elapsedPercentage >= 1)
+            {
+                TargetNextWaypoint();
+            }
         }
     }
 
