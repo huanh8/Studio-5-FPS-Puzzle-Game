@@ -18,6 +18,8 @@ namespace Unity.FPS.Gameplay
         // Update is called once per frame
         private PlayerInputHandler InputHandler;
 
+        
+
         void Start()
         {
             GameObject player = GameObject.Find("Player");
@@ -44,9 +46,13 @@ namespace Unity.FPS.Gameplay
         {
             RaycastHit hit;
 
+            // used for assigning trigger
+            string objName;
+            GameObject openedTrigger;
+            
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
-                Debug.Log(hit.transform.name);
+                objName = hit.transform.name;
 
                 lineRenderer.SetPosition(0, lineRenderer.transform.position);
                 lineRenderer.SetPosition(1, hit.point);
@@ -55,8 +61,15 @@ namespace Unity.FPS.Gameplay
                 HitEffect.transform.rotation = Quaternion.identity;
                 //get the ditance between the hit point and the player
                 float distance = Vector3.Distance(hit.point, transform.position);
-                Debug.Log(distance);
-                //HitEffect.transform.position = lineRenderer.GetPosition(1) + hit.normal * 0.1f;
+                
+
+                //if hitten object is a trigger, 
+                //gets component and set isTriggerOn into TRUE
+                if (hit.transform.tag == "Trigger")
+                {
+                    openedTrigger = GameObject.Find($"{objName}");
+                    openedTrigger.GetComponent<TestChargeTrigger>().SetTriggerOn();
+                }
             }
             else
             { //End laser position if doesn't collide with object

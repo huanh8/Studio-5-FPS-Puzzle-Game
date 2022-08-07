@@ -16,4 +16,4 @@ MonoBehaviour:
   hitInfo: hit me!
   angle: 45
   chargeTime: 5
-  isTriggerOn: 0
+  isTriggerOn: 1
