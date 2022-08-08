@@ -6,14 +6,13 @@ using System.Collections;
 
 namespace Unity.FPS.Gameplay
 {
-    public class LightShoot_Gun : MonoBehaviour
+    public class RayTestLaser_Gun2 : MonoBehaviour
     {
-        public GameObject lightPrefab;
-        //public GameObject EffectPrefab;
-        public Camera fpsCam;
-
-        public float delayTime = 0.04f;
-
+        public GameObject HitEffect;
+        public GameObject StartEffect;
+        private ParticleSystem[] Hit;
+        private Camera fpsCam;
+        public LineRenderer lineRenderer;
         public float range = 1000f;
         public float HitOffset = 0;
 
@@ -22,23 +21,27 @@ namespace Unity.FPS.Gameplay
 
         void Start()
         {
-            lightPrefab.SetActive(false);
             GameObject player = GameObject.Find("Player");
             fpsCam = player.transform.GetChild(0).GetChild(0).GetComponent<Camera>();
             InputHandler = player.GetComponent<PlayerInputHandler>();
+            HitEffect.SetActive(false);
+            StartEffect.SetActive(false);
         }
         void Update()
         {
             if (InputHandler.GetFireInputHeld())
             {
+                lineRenderer.enabled = true;
                 ShootRay();
+                StartEffect.SetActive(true);
             }
             if (InputHandler.GetFireInputReleased())
             {
-                lightPrefab.SetActive(false);
+                lineRenderer.enabled = false;
+                HitEffect.SetActive(false);
+                StartEffect.SetActive(false);
             }
         }
-
 
         void ShootRay()
         {
@@ -49,21 +52,21 @@ namespace Unity.FPS.Gameplay
                 if (hit.collider.gameObject.GetComponent<Trigger>())
                     hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
 
-                float distance = Vector3.Distance(hit.point, transform.position);
-                lightPrefab.SetActive(true);
-                //change lightprefab's localscale.z to the distance between the hit point and the player
-                lightPrefab.transform.localScale =
-                    new Vector3(lightPrefab.transform.localScale.x, lightPrefab.transform.localScale.y, distance);
-
-                //create a EffectPrefab at the hit point
-                //GameObject effect = Instantiate(EffectPrefab, hit.point + hit.normal * HitOffset, Quaternion.identity);
-                //Destroy(effect, delayTime);
+                lineRenderer.SetPosition(0, lineRenderer.transform.position);
+                lineRenderer.SetPosition(1, hit.point);
+                HitEffect.SetActive(true);
+                HitEffect.transform.position = hit.point + hit.normal * HitOffset;
+                HitEffect.transform.rotation = Quaternion.identity;
 
             }
             else
             { //End laser position if doesn't collide with object
-                lightPrefab.transform.localScale =
-                    new Vector3(lightPrefab.transform.localScale.x, lightPrefab.transform.localScale.y, 500f);
+                var EndPos = fpsCam.transform.position + fpsCam.transform.forward * 10000;
+
+                lineRenderer.SetPosition(0, lineRenderer.transform.position);
+                lineRenderer.SetPosition(1, EndPos);
+                HitEffect.transform.position = EndPos;
+                HitEffect.SetActive(false);
             }
         }
 
