@@ -15,6 +15,7 @@ namespace Unity.FPS.Gameplay
         public LineRenderer lineRenderer;
         public float range = 1000f;
         public float HitOffset = 0;
+        [SerializeField]private int bounceSize;
 
         // Update is called once per frame
         private PlayerInputHandler InputHandler;
@@ -26,6 +27,7 @@ namespace Unity.FPS.Gameplay
             InputHandler = player.GetComponent<PlayerInputHandler>();
             HitEffect.SetActive(false);
             StartEffect.SetActive(false);
+            bounceSize = lineRenderer.positionCount; 
         }
         void Update()
         {
@@ -45,29 +47,53 @@ namespace Unity.FPS.Gameplay
 
         void ShootRay()
         {
-            RaycastHit hit;
+            Vector3 lineStartPoint = lineRenderer.transform.position;
+            Vector3 startPoint = fpsCam.transform.position;
+            Vector3 direction = fpsCam.transform.forward;
 
-            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+            lineRenderer.SetPosition(0, lineStartPoint);
+ 
+            for (int i = 0; i < bounceSize; i++)
             {
-                if (hit.collider.gameObject.GetComponent<Trigger>())
-                    hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
+                RaycastHit hit;
 
-                lineRenderer.SetPosition(0, lineRenderer.transform.position);
-                lineRenderer.SetPosition(1, hit.point);
-                HitEffect.SetActive(true);
-                HitEffect.transform.position = hit.point + hit.normal * HitOffset;
-                HitEffect.transform.rotation = Quaternion.identity;
+                Ray ray = new Ray(startPoint, direction);
 
+                if (Physics.Raycast(ray, out hit, range))
+                {
+                    startPoint = hit.point;
+                    direction = Vector3.Reflect(direction, hit.normal);
+                    lineRenderer.SetPosition(i + 1, hit.point);
+
+                    CheckTrigger(hit);
+                    HitEffect.SetActive(true);
+                    HitEffect.transform.position = hit.point + hit.normal * HitOffset;
+                    HitEffect.transform.rotation = Quaternion.identity;
+
+                    //hit.collider.gameObject.GetComponent<Refraction>().Refract();
+                    if (hit.collider.gameObject.tag != "Refraction")
+                    {
+                        for (int j = i + 1; j < bounceSize; j++)
+                        {
+                            lineRenderer.SetPosition(j, hit.point);
+                        }
+                        break;
+                    }
+                }
+                else
+                { //End laser position if doesn't collide with object
+                    var EndPos = lineRenderer.transform.position + fpsCam.transform.forward * 10000;
+                    lineRenderer.SetPosition(1, EndPos);
+                    HitEffect.transform.position = EndPos;
+                    HitEffect.SetActive(false);
+                }
             }
-            else
-            { //End laser position if doesn't collide with object
-                var EndPos = fpsCam.transform.position + fpsCam.transform.forward * 10000;
 
-                lineRenderer.SetPosition(0, lineRenderer.transform.position);
-                lineRenderer.SetPosition(1, EndPos);
-                HitEffect.transform.position = EndPos;
-                HitEffect.SetActive(false);
-            }
+        }
+        void CheckTrigger(RaycastHit hit)
+        {
+            if (hit.collider.gameObject.GetComponent<Trigger>())
+                hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
         }
 
     }
