@@ -71,13 +71,18 @@ namespace Unity.FPS.Gameplay
                     HitEffect.transform.rotation = Quaternion.identity;
 
                     //hit.collider.gameObject.GetComponent<Refraction>().Refract();
-                    if (hit.collider.gameObject.tag != "Refraction")
+                    if (hit.collider.gameObject.tag != "Reflection")
                     {
                         for (int j = i + 1; j < bounceSize; j++)
                         {
                             lineRenderer.SetPosition(j, hit.point);
                         }
                         break;
+                    }
+
+                    if (hit.collider.gameObject.tag == "Refraction")
+                    {
+                        hit.collider.gameObject.GetComponent<RefractionTestManager>().ShootRefractionRay();
                     }
                 }
                 else
