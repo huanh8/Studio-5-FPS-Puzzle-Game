@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WaypointPath : MonoBehaviour
 {
+    bool shouldLoop;
+    
     public Transform GetWaypoint(int waypointIndex)
     {
         return transform.GetChild(waypointIndex);

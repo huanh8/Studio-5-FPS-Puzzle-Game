@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestChargeTrigger : MonoBehaviour
 {
     public Trigger trigger;
+    public GameObject target;
     
     // Start is called before the first frame update
     void Start()
@@ -18,7 +19,9 @@ public class TestChargeTrigger : MonoBehaviour
         //if trigger has been turn on, do something
         if (trigger.isTriggerOn == true)
         {
-            trigger.Print();
+            // trigger.Print();
+            target.GetComponent<GenericTriggerObject>().doTrigger();
+            trigger.isTriggerOn = false;
         }
     }
 
@@ -27,4 +30,5 @@ public class TestChargeTrigger : MonoBehaviour
     {
         trigger.isTriggerOn = true;
     }
+
 }
