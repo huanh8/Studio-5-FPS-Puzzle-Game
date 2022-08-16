@@ -70,6 +70,11 @@ namespace Unity.FPS.Gameplay
                     HitEffect.transform.position = hit.point + hit.normal * HitOffset;
                     HitEffect.transform.rotation = Quaternion.identity;
 
+                    if (hit.collider.gameObject.tag == "Refraction")
+                    {
+                        hit.collider.gameObject.GetComponent<RefractionTestManager>().StartRefraction(direction);
+                    }
+
                     //hit.collider.gameObject.GetComponent<Refraction>().Refract();
                     if (hit.collider.gameObject.tag != "Reflection")
                     {
@@ -80,10 +85,7 @@ namespace Unity.FPS.Gameplay
                         break;
                     }
 
-                    if (hit.collider.gameObject.tag == "Refraction")
-                    {
-                        hit.collider.gameObject.GetComponent<RefractionTestManager>().ShootRefractionRay();
-                    }
+                    
                 }
                 else
                 { //End laser position if doesn't collide with object
