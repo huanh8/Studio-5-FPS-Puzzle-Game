@@ -27,6 +27,7 @@ namespace Unity.FPS.Gameplay
             InputHandler = player.GetComponent<PlayerInputHandler>();
             HitEffect.SetActive(false);
             StartEffect.SetActive(false);
+            lineRenderer.enabled = false;
             bounceSize = lineRenderer.positionCount; 
         }
         void Update()
@@ -39,6 +40,17 @@ namespace Unity.FPS.Gameplay
             }
             if (InputHandler.GetFireInputReleased())
             {
+                GameObject[] objects = GameObject.FindGameObjectsWithTag("Refraction");
+                foreach (GameObject obj in objects)
+                {
+                    if (obj.GetComponent<RefractionTestManager>())
+                    {
+                        obj.GetComponent<RefractionTestManager>().isRefraction = false;
+                    }
+                }
+
+                // find tag call "refreaction" get component
+
                 lineRenderer.enabled = false;
                 HitEffect.SetActive(false);
                 StartEffect.SetActive(false);
@@ -72,16 +84,18 @@ namespace Unity.FPS.Gameplay
 
                     if (hit.collider.gameObject.tag == "Refraction")
                     {
-                        hit.collider.gameObject.GetComponent<RefractionTestManager>().StartRefraction(direction);
+                        hit.collider.gameObject.GetComponent<RefractionTestManager>().StartRefraction(hit.point, direction, true);
                     }
 
                     //hit.collider.gameObject.GetComponent<Refraction>().Refract();
-                    if (hit.collider.gameObject.tag != "Reflection")
+                    if (hit.collider.gameObject.tag != "Refraction")
                     {
                         for (int j = i + 1; j < bounceSize; j++)
                         {
                             lineRenderer.SetPosition(j, hit.point);
                         }
+
+                        
                         break;
                     }
 

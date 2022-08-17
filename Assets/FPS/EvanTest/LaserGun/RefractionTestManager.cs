@@ -12,35 +12,33 @@ public class RefractionTestManager : MonoBehaviour
     public float HitOffset = 0;
     [SerializeField]private int bounceSize;
 
-    Vector3 shootDirection;
-
+    public bool isRefraction = false;
     
     // Start is called before the first frame update
     void Start()
     {
-        HitEffect.SetActive(false);
-        StartEffect.SetActive(false);
-        bounceSize = lineRenderer.positionCount; 
+
+        bounceSize = lineRenderer.positionCount;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+            lineRenderer.enabled = isRefraction;
+            HitEffect.SetActive(isRefraction);
+            StartEffect.SetActive(isRefraction);
+
     }
 
     // could be replaced by isTriggerOn in Scriptable Object
-    public void StartRefraction(Vector3 gunDirection)
+    public void StartRefraction(Vector3 gunHitPoint, Vector3 gunDirection, bool isFiring)
     {
-        shootDirection = gunDirection;
-        lineRenderer.enabled = true;
-        
-        HitEffect.SetActive(true);
-        StartEffect.SetActive(true);
-        
+
+        isRefraction = isFiring;
         Vector3 lineStartPoint = lineRenderer.transform.position;
-        Vector3 startPoint = this.transform.position;
-        Vector3 direction = Quaternion.AngleAxis(-120, Vector3.up) * shootDirection;
+        Vector3 startPoint = gunHitPoint;
+        Vector3 direction = Quaternion.AngleAxis(-120, Vector3.up) * gunDirection;
 
         lineRenderer.SetPosition(0, lineStartPoint);
  
@@ -60,10 +58,10 @@ public class RefractionTestManager : MonoBehaviour
                 HitEffect.transform.position = hit.point + hit.normal * HitOffset;
                 HitEffect.transform.rotation = Quaternion.identity;
 
-                if (hit.collider.gameObject.tag == "Refraction")
-                {
-                    hit.collider.gameObject.GetComponent<RefractionTestManager>().StartRefraction(shootDirection);
-                }
+                // if (hit.collider.gameObject.tag == "Refraction")
+                // {
+                //     hit.collider.gameObject.GetComponent<RefractionTestManager>().StartRefraction(hit.point, direction);
+                // }
                 
                 //hit.collider.gameObject.GetComponent<Refraction>().Refract();
                 if (hit.collider.gameObject.tag != "Reflection")
