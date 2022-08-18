@@ -44,41 +44,49 @@ namespace Unity.FPS.Gameplay
         [System.Obsolete]
         void ShootRay()
         {
-            RaycastHit hit;
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(fpsCam.transform.position, fpsCam.transform.forward, range);
 
             // used for assigning trigger
             string objName;
             GameObject openedTrigger;
             
-            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+            for(int i=0; i < hits.Length; i++)
             {
-                objName = hit.transform.name;
-
-                lineRenderer.SetPosition(0, lineRenderer.transform.position);
-                lineRenderer.SetPosition(1, hit.point);
-                HitEffect.active = true;
-                HitEffect.transform.position = hit.point + hit.normal * HitOffset;
-                HitEffect.transform.rotation = Quaternion.identity;
-                //get the ditance between the hit point and the player
-                float distance = Vector3.Distance(hit.point, transform.position);
+                RaycastHit hit = hits[i];
+                Debug.Log(hit.transform.tag);
                 
 
-                //if hitten object is a trigger, 
-                //gets component and set isTriggerOn into TRUE
-                if (hit.transform.tag == "Trigger")
+                if (hit.transform.tag != "Lens")
                 {
-                    openedTrigger = GameObject.Find($"{objName}");
-                    openedTrigger.GetComponent<TestChargeTrigger>().SetTriggerOn();
-                }
-            }
-            else
-            { //End laser position if doesn't collide with object
-                var EndPos = fpsCam.transform.position + fpsCam.transform.forward * 10000;
+                    objName = hit.transform.name;
 
-                lineRenderer.SetPosition(0, lineRenderer.transform.position);
-                lineRenderer.SetPosition(1, EndPos);
-                HitEffect.transform.position = EndPos;
-                HitEffect.active = false;
+                    lineRenderer.SetPosition(0, lineRenderer.transform.position);
+                    lineRenderer.SetPosition(1, hit.point);
+                    HitEffect.active = true;
+                    HitEffect.transform.position = hit.point + hit.normal * HitOffset;
+                    HitEffect.transform.rotation = Quaternion.identity;
+                    //get the ditance between the hit point and the player
+                    float distance = Vector3.Distance(hit.point, transform.position);
+                    
+
+                    //if hitten object is a trigger, 
+                    //gets component and set isTriggerOn into TRUE
+                    if (hit.transform.tag == "Trigger")
+                    {
+                        openedTrigger = GameObject.Find($"{objName}");
+                        openedTrigger.GetComponent<TestChargeTrigger>().SetTriggerOn();
+                    }
+                }
+                else
+                { //End laser position if doesn't collide with object
+                    var EndPos = fpsCam.transform.position + fpsCam.transform.forward * 10000;
+
+                    lineRenderer.SetPosition(0, lineRenderer.transform.position);
+                    lineRenderer.SetPosition(1, EndPos);
+                    HitEffect.transform.position = EndPos;
+                    HitEffect.active = false;
+                }
             }
         }
 
