@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Trigger
+  - Lens
+  - Laser
+  - Door
+  - DoorFrame
+  - Wall
+  - StairCubes
+  - Platform
   layers:
   - Default
   - TransparentFX
