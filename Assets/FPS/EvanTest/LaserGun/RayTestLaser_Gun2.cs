@@ -55,6 +55,8 @@ namespace Unity.FPS.Gameplay
             {
                 // testing event trigger purpose
                 // could be replaced by activating ScriptableObject trigger
+                Vector3 reflectDirection = Vector3.Reflect(direction, hit.normal);
+
                 if (hit.collider.gameObject.GetComponent<Trigger>())
                     hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
 
@@ -72,7 +74,7 @@ namespace Unity.FPS.Gameplay
                 // then do Reflect() in the Trigger script (or doTrigger() function)
                 //
                 if (hit.collider.gameObject.tag == "Reflection")
-                    hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point, direction);
+                    hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point, reflectDirection);
 
             }
             else

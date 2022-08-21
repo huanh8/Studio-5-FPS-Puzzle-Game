@@ -44,8 +44,9 @@ public class ReflectionManager : MonoBehaviour
             // Vector3 lineStartPoint = lineRenderer.transform.position;
             Vector3 lineStartPoint = hitPoint;
             // for refraction:
-            Vector3 direction = Quaternion.AngleAxis(30, Vector3.up) * gunDirection;
-
+            // Vector3 direction = Quaternion.AngleAxis(30, Vector3.up) * gunDirection;
+            Vector3 direction = gunDirection;
+        
         if (Physics.Raycast(lineStartPoint, direction, out hit, range))
             {
                 // testing event trigger purpose
