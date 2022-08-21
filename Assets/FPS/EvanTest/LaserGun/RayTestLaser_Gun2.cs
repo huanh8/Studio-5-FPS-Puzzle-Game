@@ -47,15 +47,18 @@ namespace Unity.FPS.Gameplay
         {
             RaycastHit hit;
 
-            Vector3 startPoint = fpsCam.transform.position;
+            Vector3 lineStartPoint = lineRenderer.transform.position;
+            Vector3 gunStartPoint = fpsCam.transform.position;
             Vector3 direction = fpsCam.transform.forward;
 
-            if (Physics.Raycast(startPoint, direction, out hit, range))
+            if (Physics.Raycast(gunStartPoint, direction, out hit, range))
             {
+                // testing event trigger purpose
+                // could be replaced by activating ScriptableObject trigger
                 if (hit.collider.gameObject.GetComponent<Trigger>())
                     hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
 
-                lineRenderer.SetPosition(0, lineRenderer.transform.position);
+                lineRenderer.SetPosition(0, lineStartPoint);
                 lineRenderer.SetPosition(1, hit.point);
                 HitEffect.SetActive(true);
                 HitEffect.transform.position = hit.point + hit.normal * HitOffset;
@@ -69,14 +72,14 @@ namespace Unity.FPS.Gameplay
                 // then do Reflect() in the Trigger script (or doTrigger() function)
                 //
                 if (hit.collider.gameObject.tag == "Reflection")
-                    hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point);
+                    hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point, direction);
 
             }
             else
             { //End laser position if doesn't collide with object
-                var EndPos = fpsCam.transform.position + fpsCam.transform.forward * 10000;
+                var EndPos = gunStartPoint + direction * 10000;
 
-                lineRenderer.SetPosition(0, lineRenderer.transform.position);
+                lineRenderer.SetPosition(0, lineStartPoint);
                 lineRenderer.SetPosition(1, EndPos);
                 HitEffect.transform.position = EndPos;
                 HitEffect.SetActive(false);
