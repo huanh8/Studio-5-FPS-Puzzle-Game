@@ -47,7 +47,10 @@ namespace Unity.FPS.Gameplay
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+            Vector3 startPoint = fpsCam.transform.position;
+            Vector3 direction = fpsCam.transform.forward;
+
+            if (Physics.Raycast(startPoint, direction, out hit, range))
             {
                 if (hit.collider.gameObject.GetComponent<Trigger>())
                     hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
@@ -57,6 +60,16 @@ namespace Unity.FPS.Gameplay
                 HitEffect.SetActive(true);
                 HitEffect.transform.position = hit.point + hit.normal * HitOffset;
                 HitEffect.transform.rotation = Quaternion.identity;
+
+                // Notice:
+                // The following code could be replaced once the ScriptableObject is implemented:
+                //
+                // if ScriptableObject name == "Reflection",
+                // set isTrigger = true
+                // then do Reflect() in the Trigger script (or doTrigger() function)
+                //
+                if (hit.collider.gameObject.tag == "Reflection")
+                    hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point);
 
             }
             else
