@@ -18,67 +18,68 @@ public class ReflectionManager : MonoBehaviour
     public GameObject StartEffect;
     public float range = 1000f;
     public float HitOffset = 0;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        lineRenderer.enabled = false;
-        HitEffect.SetActive(false);
-        StartEffect.SetActive(false);
-    }
+    public bool isTriggerOn { get; private set; }
+    float timer = 0;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+            isTriggerOn = false;
+        else
+            isTriggerOn = true;
+
+        lineRenderer.enabled = isTriggerOn;
+        HitEffect.SetActive(isTriggerOn);
+        StartEffect.SetActive(isTriggerOn);
+    }
+    public void SetTriggerOn(Vector3 hitPoint, Vector3 gunDirection)
+    {
+        timer = 0.08f;
+        if (isTriggerOn)
+            Reflect(hitPoint, gunDirection);
     }
 
     public void Reflect(Vector3 hitPoint, Vector3 gunDirection)
     {
-        // Debug.Log("Reflect");
-        lineRenderer.enabled = true;
-        StartEffect.SetActive(true);
-
         RaycastHit hit;
 
-            // Vector3 lineStartPoint = lineRenderer.transform.position;
-            Vector3 lineStartPoint = hitPoint;
-            // for refraction:
-            // Vector3 direction = Quaternion.AngleAxis(30, Vector3.up) * gunDirection;
-            Vector3 direction = gunDirection;
-        
+        Vector3 lineStartPoint = hitPoint;
+        // for refraction:
+        // Vector3 direction = Quaternion.AngleAxis(30, Vector3.up) * gunDirection;
+        Vector3 direction = gunDirection;
+
         if (Physics.Raycast(lineStartPoint, direction, out hit, range))
-            {
-                // testing event trigger purpose
-                // could be replaced by activating ScriptableObject trigger
-                if (hit.collider.gameObject.GetComponent<Trigger>())
-                    hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
-                
-                lineRenderer.SetPosition(0, lineStartPoint);
-                lineRenderer.SetPosition(1, hit.point);
-                HitEffect.SetActive(true);
-                HitEffect.transform.position = hit.point + hit.normal * HitOffset;
-                HitEffect.transform.rotation = Quaternion.identity;
+        {
+            // testing event trigger purpose
+            // could be replaced by activating ScriptableObject trigger
+            if (hit.collider.gameObject.GetComponent<Trigger>())
+                hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
 
-                // Notice:
-                // The following code could be replaced once the ScriptableObject is implemented:
-                //
-                // if ScriptableObject name == "Reflection",
-                // set isTrigger = true
-                // then do Reflect() in the Trigger script (or doTrigger() function)
-                //
-                // if (hit.collider.gameObject.tag == "Reflection")
-                //     hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point, direction);
+            lineRenderer.SetPosition(0, lineStartPoint);
+            lineRenderer.SetPosition(1, hit.point);
+            HitEffect.SetActive(true);
+            HitEffect.transform.position = hit.point + hit.normal * HitOffset;
+            HitEffect.transform.rotation = Quaternion.identity;
 
-            }
-            else
-            { //End laser position if doesn't collide with object
-                var EndPos = lineStartPoint + direction * 10000;
+            // Notice:
+            // The following code could be replaced once the ScriptableObject is implemented:
+            //
+            // if ScriptableObject name == "Reflection",
+            // set isTrigger = true
+            // then do Reflect() in the Trigger script (or doTrigger() function)
+            //
+            // if (hit.collider.gameObject.tag == "Reflection")
+            //     hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point, direction);
 
-                lineRenderer.SetPosition(0, lineStartPoint);
-                lineRenderer.SetPosition(1, EndPos);
-                HitEffect.transform.position = EndPos;
-                HitEffect.SetActive(false);
-            }
+        }
+        else
+        { //End laser position if doesn't collide with object
+            var EndPos = lineStartPoint + direction * 10000;
+            lineRenderer.SetPosition(0, lineStartPoint);
+            lineRenderer.SetPosition(1, EndPos);
+            HitEffect.transform.position = EndPos;
+            HitEffect.SetActive(false);
+        }
     }
 }

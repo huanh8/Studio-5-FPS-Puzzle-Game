@@ -285,6 +285,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TriggerLaserPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 406825613257804165, guid: f8495376c947fdf41a15dca1457c7f7c,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 406825613257804165, guid: f8495376c947fdf41a15dca1457c7f7c,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.03
+      objectReference: {fileID: 0}
     - target: {fileID: 7757761726242303499, guid: f8495376c947fdf41a15dca1457c7f7c,
         type: 3}
       propertyPath: m_RootOrder

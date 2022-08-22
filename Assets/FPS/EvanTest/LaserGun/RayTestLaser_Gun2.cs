@@ -3,6 +3,7 @@ using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using Unity.FPS.Gameplay;
 
 namespace Unity.FPS.Gameplay
 {
@@ -73,8 +74,11 @@ namespace Unity.FPS.Gameplay
                 // set isTrigger = true
                 // then do Reflect() in the Trigger script (or doTrigger() function)
                 //
-                if (hit.collider.gameObject.tag == "Reflection")
-                    hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point, reflectDirection);
+                if (hit.collider.gameObject.tag == "Reflection"){
+                   ReflectionManager triggerObject =  hit.collider.gameObject.GetComponent<ReflectionManager>();
+                   //triggerObject.Reflect(hit.point, reflectDirection);
+                   triggerObject.SetTriggerOn(hit.point, reflectDirection);
+                }
 
             }
             else
