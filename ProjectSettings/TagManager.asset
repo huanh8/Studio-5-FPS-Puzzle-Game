@@ -9,6 +9,7 @@ TagManager:
   - CylinderFormGfround
   - Reflection
   - Refraction
+  - Lens
   layers:
   - Default
   - TransparentFX

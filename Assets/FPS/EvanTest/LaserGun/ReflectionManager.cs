@@ -54,7 +54,9 @@ public class ReflectionManager : MonoBehaviour
 
     public Vector3 ReflectionDirection(Vector3 gunDirection, Vector3 hitNormal, string type, int lr = 0)
     {
-        if (type == "reflect")
+        if (type == "Lens")
+            return gunDirection;
+        else if (type == "Reflection")
             return Vector3.Reflect(gunDirection, hitNormal);
         else
         {
