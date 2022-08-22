@@ -12,19 +12,15 @@ namespace Unity.FPS.Gameplay
         public GameObject HitEffect;
         public GameObject StartEffect;
         private ParticleSystem[] Hit;
-        //private Camera fpsCam;
         public LineRenderer lineRenderer;
         public float range = 1000f;
         public float HitOffset = 0;
         private ReflectionManager triggerObject;
-
-        // Update is called once per frame
         private PlayerInputHandler InputHandler;
 
         void Start()
         {
             GameObject player = GameObject.Find("Player");
-            //fpsCam = player.transform.GetChild(0).GetChild(0).GetComponent<Camera>();
             InputHandler = player.GetComponent<PlayerInputHandler>();
             HitEffect.SetActive(false);
             StartEffect.SetActive(false);
@@ -47,17 +43,13 @@ namespace Unity.FPS.Gameplay
                 {
                     triggerObject.SetTriggerOff();
                 }
-
             }
         }
 
         void ShootRay()
         {
             RaycastHit hit;
-
             Vector3 lineStartPoint = lineRenderer.transform.position;
-            //Vector3 gunStartPoint = fpsCam.transform.position;
-            //Vector3 direction = fpsCam.transform.forward;
             Vector3 direction = lineRenderer.transform.forward;
 
             if (Physics.Raycast(lineStartPoint, direction, out hit, range))
