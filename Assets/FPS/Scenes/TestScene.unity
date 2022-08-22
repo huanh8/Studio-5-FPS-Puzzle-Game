@@ -764,7 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitOffset: 0
-  ANGLE: 120
+  ANGLE: 60
 --- !u!65 &648870547
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -15,20 +15,20 @@ public class ReflectionManager : MonoBehaviour
 
     private LineRenderer[] lineRenderer;
     private GameObject[] HitEffect;
-    private GameObject[] StartEffect;
+
     private float range = 1000f;
     public float HitOffset = 0;
-    public int ANGLE = 120;
+    public int ANGLE = 60;
 
     void Start()
     {
         SetLineRenderer();
+        SetTriggerOff();
     }
     void SetLineRenderer()
     {
         lineRenderer = new LineRenderer[transform.childCount];
         HitEffect = new GameObject[transform.childCount];
-        StartEffect = new GameObject[transform.childCount];
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -36,11 +36,8 @@ public class ReflectionManager : MonoBehaviour
             {
                 lineRenderer[i] = transform.GetChild(i).GetComponent<LineRenderer>();
                 HitEffect[i] = transform.GetChild(i).GetChild(0).gameObject;
-                StartEffect[i] = transform.GetChild(i).GetChild(1).gameObject;
             }
-
         }
-
     }
     public void SetTriggerOn(RaycastHit hitPoint, Vector3 gunDirection, string type)
     {
@@ -52,7 +49,6 @@ public class ReflectionManager : MonoBehaviour
         {
             lineRenderer[i].enabled = false;
             HitEffect[i].SetActive(false);
-            StartEffect[i].SetActive(false);
         }
     }
 
@@ -76,7 +72,6 @@ public class ReflectionManager : MonoBehaviour
         {
             RaycastHit hit;
             lineRenderer[i].enabled = true;
-            StartEffect[i].SetActive(true);
             Vector3 lineStartPoint = hitPoint.point;
 
             Vector3 direction = ReflectionDirection(gunDirection, hitPoint.normal, type, i);
