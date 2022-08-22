@@ -13,73 +13,87 @@ public class ReflectionManager : MonoBehaviour
     // could still be used for ScriptableObject trigger to reflect the lights.
     // 
 
-    public LineRenderer lineRenderer;
-    public GameObject HitEffect;
-    public GameObject StartEffect;
-    public float range = 1000f;
+    private LineRenderer[] lineRenderer;
+    private GameObject[] HitEffect;
+    private GameObject[] StartEffect;
+    private float range = 1000f;
     public float HitOffset = 0;
-    public bool isTriggerOn { get; private set; }
-    float timer = 0;
+    public int ANGLE = 120;
 
-    void Update()
+    void Start()
     {
-        timer -= Time.deltaTime;
-        if (timer <= 0)
-            isTriggerOn = false;
-        else
-            isTriggerOn = true;
-
-        lineRenderer.enabled = isTriggerOn;
-        HitEffect.SetActive(isTriggerOn);
-        StartEffect.SetActive(isTriggerOn);
+        SetLineRenderer();
     }
-    public void SetTriggerOn(Vector3 hitPoint, Vector3 gunDirection)
+    void SetLineRenderer()
     {
-        timer = 0.08f;
-        if (isTriggerOn)
-            Reflect(hitPoint, gunDirection);
-    }
+        lineRenderer = new LineRenderer[transform.childCount];
+        HitEffect = new GameObject[transform.childCount];
+        StartEffect = new GameObject[transform.childCount];
 
-    public void Reflect(Vector3 hitPoint, Vector3 gunDirection)
-    {
-        RaycastHit hit;
-
-        Vector3 lineStartPoint = hitPoint;
-        // for refraction:
-        // Vector3 direction = Quaternion.AngleAxis(30, Vector3.up) * gunDirection;
-        Vector3 direction = gunDirection;
-
-        if (Physics.Raycast(lineStartPoint, direction, out hit, range))
+        for (int i = 0; i < transform.childCount; i++)
         {
-            // testing event trigger purpose
-            // could be replaced by activating ScriptableObject trigger
-            if (hit.collider.gameObject.GetComponent<Trigger>())
-                hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
-
-            lineRenderer.SetPosition(0, lineStartPoint);
-            lineRenderer.SetPosition(1, hit.point);
-            HitEffect.SetActive(true);
-            HitEffect.transform.position = hit.point + hit.normal * HitOffset;
-            HitEffect.transform.rotation = Quaternion.identity;
-
-            // Notice:
-            // The following code could be replaced once the ScriptableObject is implemented:
-            //
-            // if ScriptableObject name == "Reflection",
-            // set isTrigger = true
-            // then do Reflect() in the Trigger script (or doTrigger() function)
-            //
-            // if (hit.collider.gameObject.tag == "Reflection")
-            //     hit.collider.gameObject.GetComponent<ReflectionManager>().Reflect(hit.point, direction);
+            if (transform.GetChild(i).GetComponent<LineRenderer>())
+            {
+                lineRenderer[i] = transform.GetChild(i).GetComponent<LineRenderer>();
+                HitEffect[i] = transform.GetChild(i).GetChild(0).gameObject;
+                StartEffect[i] = transform.GetChild(i).GetChild(1).gameObject;
+            }
 
         }
+
+    }
+    public void SetTriggerOn(RaycastHit hitPoint, Vector3 gunDirection, string type)
+    {
+        Reflect(hitPoint, gunDirection, type);
+    }
+    public void SetTriggerOff()
+    {
+        for (int i = 0; i < lineRenderer.Length; i++)
+        {
+            lineRenderer[i].enabled = false;
+            HitEffect[i].SetActive(false);
+            StartEffect[i].SetActive(false);
+        }
+    }
+
+    public Vector3 ReflectionDirection(Vector3 gunDirection, Vector3 hitNormal, string type, int lr = 0)
+    {
+        if (type == "reflect")
+            return Vector3.Reflect(gunDirection, hitNormal);
         else
-        { //End laser position if doesn't collide with object
-            var EndPos = lineStartPoint + direction * 10000;
-            lineRenderer.SetPosition(0, lineStartPoint);
-            lineRenderer.SetPosition(1, EndPos);
-            HitEffect.transform.position = EndPos;
-            HitEffect.SetActive(false);
+        {
+            if (lr == 0)
+                return Quaternion.AngleAxis(ANGLE, Vector3.down) * gunDirection;
+            else
+                return Quaternion.AngleAxis(-ANGLE, Vector3.down) * gunDirection;
+        }
+    }
+
+    public void Reflect(RaycastHit hitPoint, Vector3 gunDirection, string type)
+    {
+
+        for (int i = 0; i < lineRenderer.Length; i++)
+        {
+            RaycastHit hit;
+            lineRenderer[i].enabled = true;
+            StartEffect[i].SetActive(true);
+            Vector3 lineStartPoint = hitPoint.point;
+
+            Vector3 direction = ReflectionDirection(gunDirection, hitPoint.normal, type, i);
+
+            if (Physics.Raycast(lineStartPoint, direction, out hit, range))
+            {
+
+                if (hit.collider.gameObject.GetComponent<Trigger>())
+                    hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
+
+                lineRenderer[i].SetPosition(0, lineStartPoint);
+                lineRenderer[i].SetPosition(1, hit.point);
+                HitEffect[i].SetActive(true);
+                HitEffect[i].transform.position = hit.point + hit.normal * HitOffset;
+                HitEffect[i].transform.rotation = Quaternion.identity;
+            }
+
         }
     }
 }

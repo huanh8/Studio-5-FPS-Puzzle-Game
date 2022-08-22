@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_VolumetricT1
+  m_Name: Shader Graphs_VolumetricT-yellow
   m_Shader: {fileID: -6465566751694194690, guid: 26c56e6de008d3f45aed4f15ade9e33f,
     type: 3}
   m_ValidKeywords: []
@@ -52,5 +52,5 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 1, g: 0.18933718, b: 0, a: 0}
+    - _Color: {r: 1, g: 0.9696486, b: 0, a: 0}
   m_BuildTextureStacks: []

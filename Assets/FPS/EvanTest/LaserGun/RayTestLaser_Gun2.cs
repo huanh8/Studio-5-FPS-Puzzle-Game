@@ -16,6 +16,7 @@ namespace Unity.FPS.Gameplay
         public LineRenderer lineRenderer;
         public float range = 1000f;
         public float HitOffset = 0;
+        private ReflectionManager triggerObject;
 
         // Update is called once per frame
         private PlayerInputHandler InputHandler;
@@ -35,12 +36,18 @@ namespace Unity.FPS.Gameplay
                 lineRenderer.enabled = true;
                 ShootRay();
                 StartEffect.SetActive(true);
+
             }
             if (InputHandler.GetFireInputReleased())
             {
                 lineRenderer.enabled = false;
                 HitEffect.SetActive(false);
                 StartEffect.SetActive(false);
+                if (triggerObject != null)
+                {
+                    triggerObject.SetTriggerOff();
+                }
+
             }
         }
 
@@ -56,7 +63,6 @@ namespace Unity.FPS.Gameplay
             {
                 // testing event trigger purpose
                 // could be replaced by activating ScriptableObject trigger
-                Vector3 reflectDirection = Vector3.Reflect(direction, hit.normal);
 
                 if (hit.collider.gameObject.GetComponent<Trigger>())
                     hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
@@ -74,21 +80,18 @@ namespace Unity.FPS.Gameplay
                 // set isTrigger = true
                 // then do Reflect() in the Trigger script (or doTrigger() function)
                 //
-                if (hit.collider.gameObject.tag == "Reflection"){
-                   ReflectionManager triggerObject =  hit.collider.gameObject.GetComponent<ReflectionManager>();
-                   //triggerObject.Reflect(hit.point, reflectDirection);
-                   triggerObject.SetTriggerOn(hit.point, reflectDirection);
+
+                if (hit.collider.gameObject.tag == "Reflection" || hit.collider.gameObject.tag == "Refraction")
+                {
+                    triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
+                    triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag);
                 }
 
-            }
-            else
-            { //End laser position if doesn't collide with object
-                var EndPos = gunStartPoint + direction * 10000;
+                else if (triggerObject != null)
+                {
+                    triggerObject.SetTriggerOff();
+                }
 
-                lineRenderer.SetPosition(0, lineStartPoint);
-                lineRenderer.SetPosition(1, EndPos);
-                HitEffect.transform.position = EndPos;
-                HitEffect.SetActive(false);
             }
         }
 
