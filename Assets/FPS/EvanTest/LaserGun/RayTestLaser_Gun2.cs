@@ -14,6 +14,7 @@ namespace Unity.FPS.Gameplay
         BLUE,
         YELLOW,
         CYAN,
+        MAGENTA,
         WHITE,
     }
     public class RayTestLaser_Gun2 : MonoBehaviour
@@ -51,8 +52,9 @@ namespace Unity.FPS.Gameplay
                 StartEffect.SetActive(false);
                 if (triggerObject != null)
                 {
-                    triggerObject.SetTriggerOff();
+                    triggerObject.SetTriggerOff();                
                 }
+                
             }
         }
 
@@ -110,6 +112,7 @@ namespace Unity.FPS.Gameplay
                     HitEffect.transform.rotation = Quaternion.identity;
                 }
             }
+
         }
 
     }

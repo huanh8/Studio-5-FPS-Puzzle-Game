@@ -5,7 +5,7 @@ using Unity.FPS.Gameplay;
 
 namespace Unity.FPS.Gameplay
 {
-    public class ReflectionManager : MonoBehaviour 
+    public class ReflectionManager : MonoBehaviour
     {
         // Notice:
         //
@@ -14,7 +14,7 @@ namespace Unity.FPS.Gameplay
         //
         // Although this is a temporary manager, the following functions inside it
         // could still be used for ScriptableObject trigger to reflect the lights.
-        private ReflectionManager[] triggerObject;
+        // private List<ReflectionManager>  triggerObject;
         private LineRenderer[] lineRenderer;
         private GameObject[] HitEffect;
         private float range = 1000f;
@@ -24,14 +24,14 @@ namespace Unity.FPS.Gameplay
         {
             SetLineRenderer();
             SetTriggerOff();
-            
+
         }
         void SetLineRenderer()
         {
             lineRenderer = new LineRenderer[transform.childCount];
             HitEffect = new GameObject[transform.childCount];
 
-            triggerObject = new ReflectionManager[transform.childCount];//count correct?
+            // triggerObject = new List<ReflectionManager>();
 
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -48,8 +48,18 @@ namespace Unity.FPS.Gameplay
         }
         public void SetTriggerOff()
         {
+            Debug.Log("1 ");
             for (int i = 0; i < lineRenderer.Length; i++)
             {
+                ReflectTrigger reflectTrigger = lineRenderer[i].GetComponent<ReflectTrigger>();
+
+                if (reflectTrigger.triggerObject != null)
+                {
+                    Debug.Log("1 " + reflectTrigger.triggerObject);
+                    reflectTrigger.triggerObject.SetTriggerOff();
+                    reflectTrigger.triggerObject = null;
+                }
+
                 lineRenderer[i].enabled = false;
                 HitEffect[i].SetActive(false);
             }
@@ -84,6 +94,8 @@ namespace Unity.FPS.Gameplay
 
                 Vector3 direction = ReflectionDirection(gunDirection, hitPoint.normal, type, i);
 
+                ReflectTrigger reflectTrigger = lineRenderer[i].GetComponent<ReflectTrigger>();
+
                 if (Physics.Raycast(lineStartPoint, direction, out hit, range))
                 {
                     if (hit.collider.gameObject != transform.gameObject)
@@ -91,25 +103,18 @@ namespace Unity.FPS.Gameplay
                         lineRenderer[i].SetPosition(0, lineStartPoint);
                         lineRenderer[i].SetPosition(1, hit.point);
 
-                        //change the color of the laser
-                        //float r, g, b;
-                        // using ConvertColor.ConvertColorRGB function
-                        //Color customColor = new Color(0.4f, 0.9f, 0.7f, 1.0f);
-                        //Color myColor = new Color32(0, 255, 87, 43);
-                        //Color myColor = ConvertColorRGB(currentColor);
-
                         Color myColor = ConvertColor.ConvertColorRGB(currentColor);
                         lineRenderer[i].materials[0].SetColor("_Color", myColor);
 
 
                         string tag = hit.collider.gameObject.tag;
-                        
-                       if (tag == "Lens")
+
+                        if (tag == "Lens")
                         {
                             HitEffect[i].SetActive(false);
                         }
                         else
-                        { 
+                        {
                             HitEffect[i].SetActive(true);
                             HitEffect[i].GetComponent<ParticleSystem>().startColor = myColor;
                             HitEffect[i].transform.position = hit.point + hit.normal * HitOffset;
@@ -117,15 +122,21 @@ namespace Unity.FPS.Gameplay
                         }
 
                         if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
-                        {   
+                        {
 
-                            triggerObject[i] = hit.collider.gameObject.GetComponent<ReflectionManager>();
-                            triggerObject[i].SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
+                            reflectTrigger.triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
+                            //triggerObject[i] = hit.collider.gameObject.GetComponent<ReflectionManager>();
+                            reflectTrigger.triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
+
                         }
                         else
                         {
-                            if (triggerObject[i] != null)
-                                triggerObject[i].SetTriggerOff();
+                            if (reflectTrigger.triggerObject != null)
+                            {
+                                Debug.Log("2 " + reflectTrigger.triggerObject);
+                                reflectTrigger.triggerObject.SetTriggerOff();
+                            }
+
                         }
 
                         if (hit.collider.gameObject.GetComponent<Trigger>())
@@ -133,8 +144,15 @@ namespace Unity.FPS.Gameplay
 
                     }
                 }
+                /*                 else
+                                {
+                                    if (reflectTrigger.triggerObject != null)
+                                        Debug.Log("3 "+reflectTrigger.triggerObject);
+                                        reflectTrigger.triggerObject.SetTriggerOff();
+                                } */
+
             }
         }
-       
+
     }
 }

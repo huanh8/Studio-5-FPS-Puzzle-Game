@@ -40,6 +40,12 @@ namespace Unity.FPS.Gameplay
                 g = 1;
                 b = 0;
             }
+            if (currentColor == LaserColor.MAGENTA)
+            {
+                r = 1;
+                g = 0;
+                b = 1;
+            }
 
             if (currentColor == LaserColor.CYAN)
             {
