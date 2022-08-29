@@ -13,9 +13,8 @@ namespace Unity.FPS.Gameplay
         GREEN,
         BLUE,
         YELLOW,
-        MAGENTA,
         CYAN,
-        WHITE
+        WHITE,
     }
     public class RayTestLaser_Gun2 : MonoBehaviour
     {
@@ -65,7 +64,7 @@ namespace Unity.FPS.Gameplay
 
             if (Physics.Raycast(lineStartPoint, direction, out hit, range))
             {
-                
+
                 lineRenderer.SetPosition(0, lineStartPoint);
                 lineRenderer.SetPosition(1, hit.point);
                 // testing event trigger purpose
@@ -81,6 +80,12 @@ namespace Unity.FPS.Gameplay
                 string tag = hit.collider.gameObject.tag;
                 if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
                 {
+                    if(tag =="Reflection")
+                        currentColor = LaserColor.GREEN;
+                    if(tag =="Refraction")
+                        currentColor = LaserColor.YELLOW;
+                    if(tag =="Lens")
+                        currentColor = LaserColor.CYAN;
                     triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
                     triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
                 }

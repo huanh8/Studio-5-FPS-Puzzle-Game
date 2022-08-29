@@ -5,7 +5,7 @@ using Unity.FPS.Gameplay;
 
 namespace Unity.FPS.Gameplay
 {
-    public class ReflectionManager : MonoBehaviour
+    public class ReflectionManager : MonoBehaviour 
     {
         // Notice:
         //
@@ -24,12 +24,14 @@ namespace Unity.FPS.Gameplay
         {
             SetLineRenderer();
             SetTriggerOff();
+            
         }
         void SetLineRenderer()
         {
             lineRenderer = new LineRenderer[transform.childCount];
             HitEffect = new GameObject[transform.childCount];
-            triggerObject = new ReflectionManager[transform.childCount];
+
+            triggerObject = new ReflectionManager[transform.childCount];//count correct?
 
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -90,24 +92,33 @@ namespace Unity.FPS.Gameplay
                         lineRenderer[i].SetPosition(1, hit.point);
 
                         //change the color of the laser
-                        Color customColor = new Color(0.4f, 0.9f, 0.7f, 1.0f);
-                        lineRenderer[i].materials[0].SetColor("_Color", customColor);
+                        //float r, g, b;
+                        // using ConvertColor.ConvertColorRGB function
+                        //Color customColor = new Color(0.4f, 0.9f, 0.7f, 1.0f);
+                        //Color myColor = new Color32(0, 255, 87, 43);
+                        //Color myColor = ConvertColorRGB(currentColor);
+
+                        Color myColor = ConvertColor.ConvertColorRGB(currentColor);
+                        lineRenderer[i].materials[0].SetColor("_Color", myColor);
 
 
                         string tag = hit.collider.gameObject.tag;
-                        if (tag == "Lens")
+                        
+                       if (tag == "Lens")
                         {
                             HitEffect[i].SetActive(false);
                         }
                         else
-                        {
+                        { 
                             HitEffect[i].SetActive(true);
+                            HitEffect[i].GetComponent<ParticleSystem>().startColor = myColor;
                             HitEffect[i].transform.position = hit.point + hit.normal * HitOffset;
                             HitEffect[i].transform.rotation = Quaternion.identity;
                         }
 
                         if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
-                        {
+                        {   
+
                             triggerObject[i] = hit.collider.gameObject.GetComponent<ReflectionManager>();
                             triggerObject[i].SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
                         }
@@ -124,5 +135,6 @@ namespace Unity.FPS.Gameplay
                 }
             }
         }
+       
     }
 }
