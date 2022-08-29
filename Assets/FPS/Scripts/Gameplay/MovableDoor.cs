@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlatform : GenericTriggerObject
+public class MovableDoor : GenericTriggerObject
 {
     public GameObject[] waypoints;
     private int currentWaypoint = 0;
     private float lastWaypointSwitchTime;
-    public float speed;
+    public float speed = 1.0f;
     public override bool shouldLoop {get; set;}
 
     public override void doTrigger()
     {
-        shouldLoop = true;
+        shouldLoop = false;
         Vector3 endPosition;
         if(shouldLoop)
         {
@@ -36,17 +36,5 @@ public class MovingPlatform : GenericTriggerObject
                 }
             }
         }
-    }
-    
-    //Allow player to move with platform
-    private void OnTriggerEnter(Collider other) 
-    {
-        Debug.Log(other);
-        other.transform.SetParent(transform);
-    }
-
-    private void OnTriggerExit(Collider other) 
-    {
-        other.transform.SetParent(null);
     }
 }

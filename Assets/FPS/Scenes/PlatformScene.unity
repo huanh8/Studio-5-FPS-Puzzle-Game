@@ -10295,10 +10295,7 @@ MonoBehaviour:
   waypoints:
   - {fileID: 418360106}
   - {fileID: 1283035044}
-  currentWaypoint: 0
-  lastWaypointSwitchTime: 0
   speed: 1
-  <shouldLoop>k__BackingField: 0
 --- !u!1001 &1672056068
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13625,9 +13622,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18e4fa35f1722d49a531deb82e2b48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypointPath: {fileID: 0}
+  waypoints:
+  - {fileID: 528009550}
+  - {fileID: 862753294}
+  - {fileID: 1333742450}
   speed: 2
-  canMove: 0
 --- !u!65 &2113682064
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -21,7 +21,6 @@ public class TestChargeTrigger : MonoBehaviour
         {
             // trigger.Print();
             target.GetComponent<GenericTriggerObject>().doTrigger();
-            //trigger.isTriggerOn = false;
         }
     }
 
