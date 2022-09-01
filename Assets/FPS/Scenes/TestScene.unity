@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.34404823, g: 0.09565599, b: 0.10394842, a: 1}
+  m_IndirectSpecularColor: {r: 0.34402248, g: 0.095678814, b: 0.1040308, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -483,18 +483,6 @@ MonoBehaviour:
   myTriggerEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 675559378}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
-        m_MethodName: CloseTheDooe
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 176073117}
         m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
         m_MethodName: set_material
@@ -503,6 +491,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 2100000, guid: 0a7aee634f0a04f16a55b768e33e5040,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 675559382}
+        m_TargetAssemblyTypeName: DoorTest, Assembly-CSharp
+        m_MethodName: CloseTheDooe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -524,6 +524,11 @@ PrefabInstance:
         type: 3}
       propertyPath: lengthInSec
       value: 0.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 406825613257804165, guid: f8495376c947fdf41a15dca1457c7f7c,
+        type: 3}
+      propertyPath: LightsModule.enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 406825613257804165, guid: f8495376c947fdf41a15dca1457c7f7c,
         type: 3}
@@ -992,7 +997,7 @@ GameObject:
   - component: {fileID: 675559381}
   - component: {fileID: 675559380}
   - component: {fileID: 675559379}
-  - component: {fileID: 675559378}
+  - component: {fileID: 675559382}
   m_Layer: 0
   m_Name: door
   m_TagString: DoorTrigger
@@ -1015,18 +1020,6 @@ Transform:
   m_Father: {fileID: 2729281213600907714}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &675559378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675559376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8608a487bdd0df9419a71dbe2d8dabd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &675559379
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1090,6 +1083,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675559376}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &675559382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675559376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8608a487bdd0df9419a71dbe2d8dabd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &682120766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5963937743390997973, guid: e37fa63419b53f34f99d1b98fda16468,
@@ -2552,26 +2557,13 @@ MonoBehaviour:
   myTriggerEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 675559378}
-        m_TargetAssemblyTypeName: Door, Assembly-CSharp
+      - m_Target: {fileID: 675559382}
+        m_TargetAssemblyTypeName: DoorTest, Assembly-CSharp
         m_MethodName: OpenTheDooe
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1563889346}
-        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-        m_MethodName: set_material
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2100000, guid: 170a8a9edf248d642990ead8020b8f0c,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

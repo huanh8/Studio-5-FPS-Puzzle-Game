@@ -142,7 +142,6 @@ GameObject:
   - component: {fileID: 8745372878802205896}
   - component: {fileID: 555188489432107117}
   - component: {fileID: 8090847488450120274}
-  - component: {fileID: 1233152938141764367}
   m_Layer: 0
   m_Name: TestLaser_Spotlight
   m_TagString: Untagged
@@ -420,25 +419,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1233152938141764367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2225486910712267859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ec96117728853e4eaff30db557bbe42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightPrefab: {fileID: 7822870397517531822}
-  EffectPrefab: {fileID: 1676168441696680379, guid: dd2b99386b988714a9c638818ad3027c,
-    type: 3}
-  fpsCam: {fileID: 0}
-  delayTime: 0.05
-  range: 1000
-  HitOffset: 0.1
 --- !u!1 &2867801751256125023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,12 +1327,6 @@ PrefabInstance:
 --- !u!4 &7822870397517531817 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5380987859403064754, guid: b28f968a97b77894fbf68eed5fe03010,
-    type: 3}
-  m_PrefabInstance: {fileID: 2755482650429574939}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7822870397517531822 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5380987859403064757, guid: b28f968a97b77894fbf68eed5fe03010,
     type: 3}
   m_PrefabInstance: {fileID: 2755482650429574939}
   m_PrefabAsset: {fileID: 0}

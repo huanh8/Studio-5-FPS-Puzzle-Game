@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Unity.FPS.Game;
+using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
@@ -97,8 +97,8 @@ namespace Unity.FPS.Gameplay
                 }
 
 
-                if (hit.collider.gameObject.GetComponent<Trigger>())
-                    hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
+                if (hit.collider.gameObject.GetComponent<TriggerTest>())
+                    hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
 
 
                 if (tag == "Lens")

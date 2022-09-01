@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Trigger : MonoBehaviour
+public class TriggerTest : MonoBehaviour
 {
     [SerializeField] private UnityEvent myTriggerEvent;
 

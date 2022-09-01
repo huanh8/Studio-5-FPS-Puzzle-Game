@@ -48,7 +48,6 @@ namespace Unity.FPS.Gameplay
         }
         public void SetTriggerOff()
         {
-            Debug.Log("1 ");
             for (int i = 0; i < lineRenderer.Length; i++)
             {
                 ReflectTrigger reflectTrigger = lineRenderer[i].GetComponent<ReflectTrigger>();
@@ -139,8 +138,8 @@ namespace Unity.FPS.Gameplay
 
                         }
 
-                        if (hit.collider.gameObject.GetComponent<Trigger>())
-                            hit.collider.gameObject.GetComponent<Trigger>().FireTrigger();
+                        if (hit.collider.gameObject.GetComponent<TriggerTest>())
+                            hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
 
                     }
                 }
