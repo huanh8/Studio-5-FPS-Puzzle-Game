@@ -2,55 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlatform : MonoBehaviour
+public class MovingPlatform : GenericTriggerObject
 {
-    [SerializeField] private WaypointPath waypointPath;
-    [SerializeField] private float speed;
-    public bool canMove;
+    public GameObject[] waypoints;
+    private int currentWaypoint = 0;
+    private float lastWaypointSwitchTime;
+    public float speed;
+    public override bool shouldLoop {get; set;}
 
-    private int targetWaypointIndex;
-    private Transform prevWaypoint;
-    private Transform targetWaypoint;
-    private float timeToWaypoint;
-    private float elapsedTime;
-
-    // Start is called before the first frame update
-    void Start()
+    public override void doTrigger()
     {
-        TargetNextWaypoint();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if(canMove == true)
+        shouldLoop = true;
+        Vector3 endPosition;
+        if(shouldLoop)
         {
-            elapsedTime += Time.deltaTime;
-
-            float elapsedPercentage = elapsedTime / timeToWaypoint;
-            transform.position = Vector3.Lerp(prevWaypoint.position, targetWaypoint.position, elapsedPercentage);
-
-            if(elapsedPercentage >= 1)
+            endPosition = waypoints[(currentWaypoint + 1) % waypoints.Length].transform.position;
+            float step = speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, endPosition, step);
+            if(transform.position == endPosition)
             {
-                TargetNextWaypoint();
+                currentWaypoint++;
+            }
+        }
+        else {
+            endPosition = waypoints[currentWaypoint + 1].transform.position;
+            float step = speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, endPosition, step);
+            if(transform.position == endPosition)
+            {
+                if(currentWaypoint < waypoints.Length - 2)
+                {
+                    currentWaypoint++;
+                }
             }
         }
     }
-
-    private void TargetNextWaypoint()
-    {
-        prevWaypoint = waypointPath.GetWaypoint(targetWaypointIndex);
-        targetWaypointIndex = waypointPath.GetNextWaypointIndex(targetWaypointIndex);
-        targetWaypoint = waypointPath.GetWaypoint(targetWaypointIndex);
-
-        elapsedTime = 0;
-
-        float distanceToWaypoint = Vector3.Distance(prevWaypoint.position, targetWaypoint.position);
-        timeToWaypoint = distanceToWaypoint / speed;
-    }
-
+    
+    //Allow player to move with platform
     private void OnTriggerEnter(Collider other) 
     {
+        Debug.Log(other);
         other.transform.SetParent(transform);
     }
 
