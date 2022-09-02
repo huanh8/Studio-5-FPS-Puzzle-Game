@@ -52,7 +52,6 @@ namespace Unity.FPS.Gameplay
                 StartEffect.SetActive(false);
                 if (triggerObject != null)
                     triggerObject.SetTriggerOff();
-
             }
         }
 

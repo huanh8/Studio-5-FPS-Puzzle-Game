@@ -14,7 +14,8 @@ namespace Unity.FPS.Gameplay
         //
         // Although this is a temporary manager, the following functions inside it
         // could still be used for ScriptableObject trigger to reflect the lights.
-        private List<ReflectionManager> triggerObject;
+        //private List<ReflectionManager> triggerObjects;
+        private ReflectionManager triggerObject;
         private ReflectionManager preTriggerObject;
         private LineRenderer[] lineRenderer;
         private GameObject[] HitEffect;
@@ -31,7 +32,7 @@ namespace Unity.FPS.Gameplay
             lineRenderer = new LineRenderer[transform.childCount];
             HitEffect = new GameObject[transform.childCount];
 
-            triggerObject = new List<ReflectionManager>();
+            //triggerObjects = new List<ReflectionManager>();
 
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -54,11 +55,14 @@ namespace Unity.FPS.Gameplay
             {
                 ReflectTrigger reflectTrigger2 = lineRenderer[i].GetComponent<ReflectTrigger>();
 
-                if (reflectTrigger2.triggerObject != null)
+                if (reflectTrigger2.triggerObject != null){
                     reflectTrigger2.triggerObject.SetTriggerOff();
+                    reflectTrigger2.triggerObject = null;
+                }
+
                 lineRenderer[i].enabled = false;
                 HitEffect[i].SetActive(false);
-                triggerObject = null;
+                //triggerObjects = null;
             }
         }
 
@@ -89,7 +93,7 @@ namespace Unity.FPS.Gameplay
                 Vector3 direction = ReflectionDirection(gunDirection, hitPoint.normal, type, i);
 
                 ReflectTrigger reflectTrigger = lineRenderer[i].GetComponent<ReflectTrigger>();
-
+                
                 if (Physics.Raycast(lineStartPoint, direction, out hit, range))
                 {
                     if (hit.collider.gameObject != transform.gameObject)
@@ -120,13 +124,13 @@ namespace Unity.FPS.Gameplay
                             if (preTriggerObject != null)
                                 preTriggerObject.SetTriggerOff();
 
-                            reflectTrigger.triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
+                            reflectTrigger.triggerObject= hit.collider.gameObject.GetComponent<ReflectionManager>();
                             reflectTrigger.triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
 
                             preTriggerObject = reflectTrigger.triggerObject;
                         }
-                        else if (reflectTrigger.triggerObject != null)
-                            reflectTrigger.triggerObject.SetTriggerOff();
+/*                         else if (reflectTrigger.triggerObject != null)
+                            reflectTrigger.triggerObject.SetTriggerOff(); */
 
                         if (hit.collider.gameObject.GetComponent<TriggerTest>())
                             hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
