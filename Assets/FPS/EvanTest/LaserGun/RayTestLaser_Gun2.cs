@@ -3,7 +3,6 @@ using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
-using Unity.FPS.Gameplay;
 
 namespace Unity.FPS.Gameplay
 {
@@ -26,6 +25,7 @@ namespace Unity.FPS.Gameplay
         public float range = 1000f;
         public float HitOffset = 0;
         private ReflectionManager triggerObject;
+        private ReflectionManager preTriggerObject;
         private PlayerInputHandler InputHandler;
         private LaserColor currentColor = LaserColor.RED;
 
@@ -51,10 +51,8 @@ namespace Unity.FPS.Gameplay
                 HitEffect.SetActive(false);
                 StartEffect.SetActive(false);
                 if (triggerObject != null)
-                {
-                    triggerObject.SetTriggerOff();                
-                }
-                
+                    triggerObject.SetTriggerOff();
+
             }
         }
 
@@ -82,24 +80,25 @@ namespace Unity.FPS.Gameplay
                 string tag = hit.collider.gameObject.tag;
                 if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
                 {
-                    if(tag =="Reflection")
+                    if (preTriggerObject != null)
+                        preTriggerObject.SetTriggerOff();
+
+                    if (tag == "Reflection")
                         currentColor = LaserColor.GREEN;
-                    if(tag =="Refraction")
+                    if (tag == "Refraction")
                         currentColor = LaserColor.YELLOW;
-                    if(tag =="Lens")
+                    if (tag == "Lens")
                         currentColor = LaserColor.CYAN;
                     triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
                     triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
+
+                    preTriggerObject = triggerObject;
                 }
                 else if (triggerObject != null)
-                {
                     triggerObject.SetTriggerOff();
-                }
-
 
                 if (hit.collider.gameObject.GetComponent<TriggerTest>())
                     hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
-
 
                 if (tag == "Lens")
                 {
@@ -112,8 +111,6 @@ namespace Unity.FPS.Gameplay
                     HitEffect.transform.rotation = Quaternion.identity;
                 }
             }
-
         }
-
     }
 }
