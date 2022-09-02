@@ -36,6 +36,8 @@ namespace Unity.FPS.Gameplay
             HitEffect.SetActive(false);
             StartEffect.SetActive(false);
         }
+
+        [System.Obsolete]
         void Update()
         {
             if (InputHandler.GetFireInputHeld())
@@ -55,6 +57,7 @@ namespace Unity.FPS.Gameplay
             }
         }
 
+        [System.Obsolete]
         void ShootRay()
         {
             RaycastHit hit;

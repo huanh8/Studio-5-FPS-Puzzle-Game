@@ -81,6 +81,7 @@ namespace Unity.FPS.Gameplay
             }
         }
 
+        [System.Obsolete]
         public void Reflect(RaycastHit hitPoint, Vector3 gunDirection, string type, LaserColor currentColor)
         {
 
