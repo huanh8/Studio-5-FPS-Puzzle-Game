@@ -12,7 +12,7 @@ namespace Unity.FPS.Gameplay
         private ParticleSystem[] Hit;
         public Camera fpsCam;
         public LineRenderer lineRenderer;
-        public float range = 1000f;
+        public float range = 50f;
         public float HitOffset = 0;
 
         // Update is called once per frame
