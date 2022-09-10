@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5400a0805ac3be24da3ea890f280777c, type: 3}
-  m_Name: ReflectionTrigger
+  m_Name: LensTrigger
   m_EditorClassIdentifier: 
-  triggerName: Reflection
-  hitInfo: Reflect
+  triggerName: Lens
+  hitInfo: 
   angle: 0
   chargeTime: 0
   isTriggerOn: 0

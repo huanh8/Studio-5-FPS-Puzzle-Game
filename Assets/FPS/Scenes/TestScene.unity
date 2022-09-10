@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c6e87a56e70e1740b6827d039f07af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trigger: {fileID: 11400000, guid: 4f545f0ccef63ff47b0dc76d125b1b34, type: 2}
   HitOffset: 0
   ANGLE: 120
 --- !u!65 &59214871
@@ -876,6 +877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c6e87a56e70e1740b6827d039f07af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trigger: {fileID: 11400000, guid: 4ad38fea78497bd468e2aca9cb151e3e, type: 2}
   HitOffset: 0
   ANGLE: 60
 --- !u!65 &648870547
@@ -1269,6 +1271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c6e87a56e70e1740b6827d039f07af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trigger: {fileID: 11400000, guid: 4ad38fea78497bd468e2aca9cb151e3e, type: 2}
   HitOffset: 0
   ANGLE: 60
 --- !u!65 &772661917
@@ -1930,6 +1933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c6e87a56e70e1740b6827d039f07af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trigger: {fileID: 11400000, guid: 3579ec9858789bd499a6aaf569e8710f, type: 2}
   HitOffset: 0
   ANGLE: 60
 --- !u!65 &1102489464

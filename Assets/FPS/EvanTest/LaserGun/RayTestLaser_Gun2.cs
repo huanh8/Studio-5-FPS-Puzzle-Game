@@ -69,30 +69,29 @@ namespace Unity.FPS.Gameplay
 
                 lineRenderer.SetPosition(0, lineStartPoint);
                 lineRenderer.SetPosition(1, hit.point);
-                // testing event trigger purpose
-                // could be replaced by activating ScriptableObject trigger
+                
+                // set hitten object triggerName
+                // if this hitObject has a ReflectioManager / this hitObject is a trigger,
+                // get triggerName from ScriptableObject and set triggerName = ScriptableObject.triggerName
+                string triggerName = null;
+                if (hit.collider.gameObject.GetComponent<ReflectionManager>())
+                {
+                    triggerName = hit.collider.gameObject.GetComponent<ReflectionManager>().trigger.triggerName;
+                }
 
-                // Notice:
-                // The following code could be replaced once the ScriptableObject is implemented:
-                //
-                // if ScriptableObject name == "Reflection",
-                // set isTrigger = true
-                // then do Reflect() in the Trigger script (or doTrigger() function)
-                //
-                string tag = hit.collider.gameObject.tag;
-                if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
+                if (triggerName == "Reflection" || triggerName == "Refraction" || triggerName == "Lens")
                 {
                     if (preTriggerObject != null)
                         preTriggerObject.SetTriggerOff();
 
-                    if (tag == "Reflection")
+                    if (triggerName == "Reflection")
                         currentColor = LaserColor.GREEN;
-                    if (tag == "Refraction")
+                    if (triggerName == "Refraction")
                         currentColor = LaserColor.YELLOW;
-                    if (tag == "Lens")
+                    if (triggerName == "Lens")
                         currentColor = LaserColor.CYAN;
                     triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
-                    triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
+                    triggerObject.SetTriggerOn(hit, direction, currentColor);
 
                     preTriggerObject = triggerObject;
                 }
@@ -102,7 +101,7 @@ namespace Unity.FPS.Gameplay
                 if (hit.collider.gameObject.GetComponent<TriggerTest>())
                     hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
 
-                if (tag == "Lens")
+                if (triggerName == "Lens")
                 {
                     HitEffect.SetActive(false);
                 }
