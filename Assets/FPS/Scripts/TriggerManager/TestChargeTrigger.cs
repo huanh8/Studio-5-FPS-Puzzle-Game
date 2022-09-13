@@ -21,7 +21,6 @@ public class TestChargeTrigger : MonoBehaviour
         {
             // trigger.Print();
             target.GetComponent<GenericTriggerObject>().doTrigger();
-            gameObject.GetComponent<Renderer>().material.color = new Color(0, 200, 0);
         }
     }
 
