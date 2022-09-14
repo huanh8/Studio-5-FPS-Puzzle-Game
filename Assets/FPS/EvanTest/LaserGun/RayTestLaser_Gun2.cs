@@ -69,31 +69,26 @@ namespace Unity.FPS.Gameplay
 
                 lineRenderer.SetPosition(0, lineStartPoint);
                 lineRenderer.SetPosition(1, hit.point);
-                // testing event trigger purpose
-                // could be replaced by activating ScriptableObject trigger
-
-                // Notice:
-                // The following code could be replaced once the ScriptableObject is implemented:
-                //
-                // if ScriptableObject name == "Reflection",
-                // set isTrigger = true
-                // then do Reflect() in the Trigger script (or doTrigger() function)
-                //
+                //Debug.DrawRay(lineStartPoint, direction * hit.distance, Color.white);
                 string tag = hit.collider.gameObject.tag;
+
                 if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
                 {
                     if (preTriggerObject != null)
+                    {
                         preTriggerObject.SetTriggerOff();
+                        preTriggerObject = null;
+                    }
 
                     if (tag == "Reflection")
                         currentColor = LaserColor.GREEN;
                     if (tag == "Refraction")
-                        currentColor = LaserColor.YELLOW;
+                        currentColor = LaserColor.BLUE;
                     if (tag == "Lens")
-                        currentColor = LaserColor.CYAN;
+                        currentColor = LaserColor.MAGENTA;
+
                     triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
                     triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
-
                     preTriggerObject = triggerObject;
                 }
                 else if (triggerObject != null)
