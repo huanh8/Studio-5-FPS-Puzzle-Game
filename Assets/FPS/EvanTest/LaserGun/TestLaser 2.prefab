@@ -200,8 +200,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.08303309
-        value: 0.15
+        time: 0.05
+        value: 0.05
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -240,7 +240,7 @@ LineRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
+    numCornerVertices: 3
     numCapVertices: 3
     alignment: 0
     textureMode: 0
@@ -5726,7 +5726,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.99
+      scalar: 1.23
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5895,7 +5895,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2.5
+      scalar: 0.63
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -10623,7 +10623,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: NaN, w: 4.7409676e-10}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: 5.0222615e+23}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

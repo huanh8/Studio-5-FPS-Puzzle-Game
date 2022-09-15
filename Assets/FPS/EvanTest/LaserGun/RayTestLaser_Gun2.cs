@@ -3,7 +3,6 @@ using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
-using Unity.FPS.Gameplay;
 
 namespace Unity.FPS.Gameplay
 {
@@ -26,6 +25,7 @@ namespace Unity.FPS.Gameplay
         public float range = 1000f;
         public float HitOffset = 0;
         private ReflectionManager triggerObject;
+        private ReflectionManager preTriggerObject;
         private PlayerInputHandler InputHandler;
         private LaserColor currentColor = LaserColor.RED;
 
@@ -36,6 +36,8 @@ namespace Unity.FPS.Gameplay
             HitEffect.SetActive(false);
             StartEffect.SetActive(false);
         }
+
+        [System.Obsolete]
         void Update()
         {
             if (InputHandler.GetFireInputHeld())
@@ -51,13 +53,11 @@ namespace Unity.FPS.Gameplay
                 HitEffect.SetActive(false);
                 StartEffect.SetActive(false);
                 if (triggerObject != null)
-                {
-                    triggerObject.SetTriggerOff();                
-                }
-                
+                    triggerObject.SetTriggerOff();
             }
         }
 
+        [System.Obsolete]
         void ShootRay()
         {
             RaycastHit hit;
@@ -69,37 +69,33 @@ namespace Unity.FPS.Gameplay
 
                 lineRenderer.SetPosition(0, lineStartPoint);
                 lineRenderer.SetPosition(1, hit.point);
-                // testing event trigger purpose
-                // could be replaced by activating ScriptableObject trigger
-
-                // Notice:
-                // The following code could be replaced once the ScriptableObject is implemented:
-                //
-                // if ScriptableObject name == "Reflection",
-                // set isTrigger = true
-                // then do Reflect() in the Trigger script (or doTrigger() function)
-                //
+                //Debug.DrawRay(lineStartPoint, direction * hit.distance, Color.white);
                 string tag = hit.collider.gameObject.tag;
+
                 if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
                 {
-                    if(tag =="Reflection")
+                    if (preTriggerObject != null)
+                    {
+                        preTriggerObject.SetTriggerOff();
+                        preTriggerObject = null;
+                    }
+
+                    if (tag == "Reflection")
                         currentColor = LaserColor.GREEN;
-                    if(tag =="Refraction")
-                        currentColor = LaserColor.YELLOW;
-                    if(tag =="Lens")
-                        currentColor = LaserColor.CYAN;
+                    if (tag == "Refraction")
+                        currentColor = LaserColor.BLUE;
+                    if (tag == "Lens")
+                        currentColor = LaserColor.MAGENTA;
+
                     triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
                     triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
+                    preTriggerObject = triggerObject;
                 }
                 else if (triggerObject != null)
-                {
                     triggerObject.SetTriggerOff();
-                }
-
 
                 if (hit.collider.gameObject.GetComponent<TriggerTest>())
                     hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
-
 
                 if (tag == "Lens")
                 {
@@ -112,8 +108,6 @@ namespace Unity.FPS.Gameplay
                     HitEffect.transform.rotation = Quaternion.identity;
                 }
             }
-
         }
-
     }
 }

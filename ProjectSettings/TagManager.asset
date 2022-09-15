@@ -12,6 +12,11 @@ TagManager:
   - Wall
   - StairCubes
   - Platform
+  - Reflection
+  - Refraction
+  - DoorTrigger
+  - LaserLight
+  - CylinderFormGfround
   layers:
   - Default
   - TransparentFX
@@ -25,9 +30,9 @@ TagManager:
   - 
   - FirstPersonWeapon
   - PhysicalAmmo
-  - 
-  - 
-  - 
+  - R1
+  - R2
+  - Lens
   - 
   - 
   - 

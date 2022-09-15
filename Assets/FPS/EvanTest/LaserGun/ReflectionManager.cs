@@ -14,24 +14,26 @@ namespace Unity.FPS.Gameplay
         //
         // Although this is a temporary manager, the following functions inside it
         // could still be used for ScriptableObject trigger to reflect the lights.
-        // private List<ReflectionManager>  triggerObject;
+        //private List<ReflectionManager> triggerObjects;
+        private ReflectionManager triggerObject;
+        private ReflectionManager preTriggerObject;
         private LineRenderer[] lineRenderer;
         private GameObject[] HitEffect;
         private float range = 1000f;
-        public float HitOffset = 0;
+        private float HitOffset = 0.01f;
         public int ANGLE = 60;
-        void Start()
+
+        private
+        void Awake()
         {
             SetLineRenderer();
             SetTriggerOff();
-
         }
+
         void SetLineRenderer()
         {
             lineRenderer = new LineRenderer[transform.childCount];
             HitEffect = new GameObject[transform.childCount];
-
-            // triggerObject = new List<ReflectionManager>();
 
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -42,21 +44,22 @@ namespace Unity.FPS.Gameplay
                 }
             }
         }
-        public void SetTriggerOn(RaycastHit hitPoint, Vector3 gunDirection, string type, LaserColor currentColor)
+
+        [System.Obsolete]
+        public void SetTriggerOn(RaycastHit _hitPoint, Vector3 _gunDirection, string _type, LaserColor _currentColor)
         {
-            Reflect(hitPoint, gunDirection, type, currentColor);
+            Reflect(_hitPoint, _gunDirection, _type, _currentColor);
         }
         public void SetTriggerOff()
         {
             for (int i = 0; i < lineRenderer.Length; i++)
             {
-                ReflectTrigger reflectTrigger = lineRenderer[i].GetComponent<ReflectTrigger>();
+                ReflectTrigger reflectTrigger2 = lineRenderer[i].GetComponent<ReflectTrigger>();
 
-                if (reflectTrigger.triggerObject != null)
+                if (reflectTrigger2.triggerObject != null)
                 {
-                    Debug.Log("1 " + reflectTrigger.triggerObject);
-                    reflectTrigger.triggerObject.SetTriggerOff();
-                    reflectTrigger.triggerObject = null;
+                    reflectTrigger2.triggerObject.SetTriggerOff();
+                    reflectTrigger2.triggerObject = null;
                 }
 
                 lineRenderer[i].enabled = false;
@@ -79,39 +82,59 @@ namespace Unity.FPS.Gameplay
             }
         }
 
+        [System.Obsolete]
         public void Reflect(RaycastHit hitPoint, Vector3 gunDirection, string type, LaserColor currentColor)
         {
 
             for (int i = 0; i < lineRenderer.Length; i++)
             {
-                /*                 if (triggerObject[i] != null)
-                                    triggerObject[i].SetTriggerOff(); */
-
-                RaycastHit hit;
+                RaycastHit[] hits;
+                Ray ray;
                 lineRenderer[i].enabled = true;
-                Vector3 lineStartPoint = hitPoint.point;
 
+                Vector3 lineStartPoint = hitPoint.point;
                 Vector3 direction = ReflectionDirection(gunDirection, hitPoint.normal, type, i);
 
                 ReflectTrigger reflectTrigger = lineRenderer[i].GetComponent<ReflectTrigger>();
 
-                if (Physics.Raycast(lineStartPoint, direction, out hit, range))
+                ray = new Ray(lineStartPoint, direction);
+                hits = Physics.RaycastAll(ray, range);
+
+                foreach (RaycastHit hit in hits)
                 {
                     if (hit.collider.gameObject != transform.gameObject)
                     {
+                        // Debug.Log("Yes I am the object: " + hit.collider.gameObject.name);
+                        // draw the raycast line
+                        // Debug.DrawRay(lineStartPoint, direction * hit.distance, Color.white);
+
                         lineRenderer[i].SetPosition(0, lineStartPoint);
                         lineRenderer[i].SetPosition(1, hit.point);
 
                         Color myColor = ConvertColor.ConvertColorRGB(currentColor);
                         lineRenderer[i].materials[0].SetColor("_Color", myColor);
 
-
                         string tag = hit.collider.gameObject.tag;
 
-                        if (tag == "Lens")
+                        if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
                         {
-                            HitEffect[i].SetActive(false);
+                            if (preTriggerObject != null)
+                            {
+                                preTriggerObject.SetTriggerOff();
+                                preTriggerObject = null;
+                            }
+
+                            reflectTrigger.triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
+                            reflectTrigger.triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
+
+                            preTriggerObject = reflectTrigger.triggerObject;
                         }
+
+                        if (hit.collider.gameObject.GetComponent<TriggerTest>())
+                            hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
+
+                        if (tag == "Lens")
+                            HitEffect[i].SetActive(false);
                         else
                         {
                             HitEffect[i].SetActive(true);
@@ -119,39 +142,10 @@ namespace Unity.FPS.Gameplay
                             HitEffect[i].transform.position = hit.point + hit.normal * HitOffset;
                             HitEffect[i].transform.rotation = Quaternion.identity;
                         }
-
-                        if (tag == "Reflection" || tag == "Refraction" || tag == "Lens")
-                        {
-
-                            reflectTrigger.triggerObject = hit.collider.gameObject.GetComponent<ReflectionManager>();
-                            //triggerObject[i] = hit.collider.gameObject.GetComponent<ReflectionManager>();
-                            reflectTrigger.triggerObject.SetTriggerOn(hit, direction, hit.collider.gameObject.tag, currentColor);
-
-                        }
-                        else
-                        {
-                            if (reflectTrigger.triggerObject != null)
-                            {
-                                Debug.Log("2 " + reflectTrigger.triggerObject);
-                                reflectTrigger.triggerObject.SetTriggerOff();
-                            }
-
-                        }
-
-                        if (hit.collider.gameObject.GetComponent<TriggerTest>())
-                            hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
-
+                        break;
                     }
                 }
-                /*                 else
-                                {
-                                    if (reflectTrigger.triggerObject != null)
-                                        Debug.Log("3 "+reflectTrigger.triggerObject);
-                                        reflectTrigger.triggerObject.SetTriggerOff();
-                                } */
-
             }
         }
-
     }
 }

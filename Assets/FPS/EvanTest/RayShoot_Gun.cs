@@ -36,11 +36,10 @@ namespace Unity.FPS.Gameplay
             if (InputHandler.GetFireInputReleased())
             {
                 lineRenderer.enabled = false;
-                HitEffect.active = false;
+                HitEffect.SetActive(false);
             }
         }
 
-        [System.Obsolete]
         void ShootRay()
         {
             RaycastHit[] hits;
@@ -62,7 +61,7 @@ namespace Unity.FPS.Gameplay
 
                     lineRenderer.SetPosition(0, lineRenderer.transform.position);
                     lineRenderer.SetPosition(1, hit.point);
-                    HitEffect.active = true;
+                    HitEffect.SetActive(true);
                     HitEffect.transform.position = hit.point + hit.normal * HitOffset;
                     HitEffect.transform.rotation = Quaternion.identity;
                     //get the ditance between the hit point and the player
@@ -84,7 +83,7 @@ namespace Unity.FPS.Gameplay
                     lineRenderer.SetPosition(0, lineRenderer.transform.position);
                     lineRenderer.SetPosition(1, EndPos);
                     HitEffect.transform.position = EndPos;
-                    HitEffect.active = false;
+                    HitEffect.SetActive(false);
                 }
             }
         }
