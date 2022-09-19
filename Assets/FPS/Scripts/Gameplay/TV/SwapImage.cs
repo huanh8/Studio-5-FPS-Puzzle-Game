@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SwapImage : MonoBehaviour
 {
-
+    public float swapTime;
     public Sprite imageOne;
     public Sprite imageTwo;
 
@@ -28,14 +28,14 @@ public class SwapImage : MonoBehaviour
 
     public IEnumerator changeToImageTwo()
     {
-        yield return new WaitForSecondsRealtime(5);
+        yield return new WaitForSecondsRealtime(swapTime);
         imageComponent.sprite = imageTwo;
         change = true;
     }
 
     public IEnumerator changeToImageOne()
     {
-        yield return new WaitForSecondsRealtime(5);
+        yield return new WaitForSecondsRealtime(swapTime);
         imageComponent.sprite = imageOne;
         change = false;
     }
