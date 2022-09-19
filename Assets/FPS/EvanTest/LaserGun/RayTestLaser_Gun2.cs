@@ -40,7 +40,7 @@ namespace Unity.FPS.Gameplay
             InputHandler = player.GetComponent<PlayerInputHandler>();
             HitEffect.SetActive(false);
             StartEffect.SetActive(false);
-            //proceduralAudioObject.GetComponent<ProceduralAudioController>().autoPlay = false;
+            // Audio
             proceduralAudioController = proceduralAudioObject.GetComponent<ProceduralAudioController>();
             proceduralAudioSource = proceduralAudioObject.GetComponent<AudioSource>();
             proceduralAudioSource.mute = true;
