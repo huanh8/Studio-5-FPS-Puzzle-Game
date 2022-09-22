@@ -29,12 +29,24 @@ namespace Unity.FPS.Gameplay
         private PlayerInputHandler InputHandler;
         private LaserColor currentColor = LaserColor.RED;
 
+        public GameObject proceduralAudioObject;
+
+        private ProceduralAudioController proceduralAudioController;
+        private AudioSource proceduralAudioSource;
+        float timer = 2.0f;
+
         void Start()
         {
             GameObject player = GameObject.Find("Player");
             InputHandler = player.GetComponent<PlayerInputHandler>();
             HitEffect.SetActive(false);
             StartEffect.SetActive(false);
+
+            // Audio
+            proceduralAudioController = proceduralAudioObject.GetComponent<ProceduralAudioController>();
+            proceduralAudioSource = proceduralAudioObject.GetComponent<AudioSource>();
+            proceduralAudioSource.mute = true;
+            proceduralAudioController.autoPlay = false;
         }
 
         [System.Obsolete]
@@ -45,6 +57,14 @@ namespace Unity.FPS.Gameplay
                 lineRenderer.enabled = true;
                 ShootRay();
                 StartEffect.SetActive(true);
+                proceduralAudioSource.mute = false;
+                proceduralAudioController.autoPlay = true;
+
+                timer -= Time.deltaTime;
+                if (timer < 0)
+                {
+                    proceduralAudioController.autoPlay = false;
+                }
 
             }
             if (InputHandler.GetFireInputReleased())
@@ -52,6 +72,8 @@ namespace Unity.FPS.Gameplay
                 lineRenderer.enabled = false;
                 HitEffect.SetActive(false);
                 StartEffect.SetActive(false);
+                proceduralAudioSource.mute = true;
+                proceduralAudioController.autoPlay = false;
                 if (triggerObject != null)
                     triggerObject.SetTriggerOff();
             }
