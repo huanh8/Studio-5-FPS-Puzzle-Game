@@ -130,6 +130,13 @@ namespace Unity.FPS.Gameplay
                     HitEffect.transform.rotation = Quaternion.identity;
                 }
             }
+            else
+            {
+                lineRenderer.SetPosition(0, lineStartPoint);
+                lineRenderer.SetPosition(1, lineStartPoint + direction * range);
+                if (triggerObject != null)
+                    triggerObject.SetTriggerOff();
+            }
         }
     }
 }
