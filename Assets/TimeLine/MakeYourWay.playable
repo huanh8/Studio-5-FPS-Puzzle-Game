@@ -228,9 +228,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 0
   m_Tracks:
+  - {fileID: 4984039616104612908}
   - {fileID: -1315401432323878273}
   - {fileID: -130575520432187267}
-  - {fileID: 4984039616104612908}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
