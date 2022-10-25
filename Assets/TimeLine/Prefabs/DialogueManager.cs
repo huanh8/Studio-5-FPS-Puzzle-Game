@@ -33,11 +33,11 @@ public class DialogueManager : MonoBehaviour
         }
 
         // show dialogue box
-        DisplayNextSentence();
+        DisplayNextSentence(dialogue.name);
         // play audio
         PlayNextAudioClip();
     }
-    public void DisplayNextSentence()
+    public void DisplayNextSentence(string name)
     {
         if (sentences.Count == 0)
         {
@@ -45,7 +45,8 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         string sentence = sentences.Dequeue();
-        Text.text = sentence;
+        Text.text = name +": "+sentence;
+        Debug.Log(Text.text);
     }
     public void PlayNextAudioClip()
     {
