@@ -9,30 +9,35 @@ public class MovableDoor : GenericTriggerObject
     private float lastWaypointSwitchTime;
     public float speed = 1.0f;
     public override bool shouldLoop {get; set;}
+    public bool finish = false;
 
     public override void doTrigger()
     {
         shouldLoop = false;
         Vector3 endPosition;
-        if(shouldLoop)
+        while(!finish)
         {
-            endPosition = waypoints[(currentWaypoint + 1) % waypoints.Length].transform.position;
-            float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, endPosition, step);
-            if(transform.position == endPosition)
+            if(shouldLoop)
             {
-                currentWaypoint++;
-            }
-        }
-        else {
-            endPosition = waypoints[currentWaypoint + 1].transform.position;
-            float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, endPosition, step);
-            if(transform.position == endPosition)
-            {
-                if(currentWaypoint < waypoints.Length - 2)
+                endPosition = waypoints[(currentWaypoint + 1) % waypoints.Length].transform.position;
+                float step = speed * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, endPosition, step);
+                if(transform.position == endPosition)
                 {
                     currentWaypoint++;
+                }
+            }
+            else {
+                endPosition = waypoints[currentWaypoint + 1].transform.position;
+                float step = speed * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, endPosition, step);
+                if(transform.position == endPosition)
+                {
+                    if(currentWaypoint < waypoints.Length - 2)
+                    {
+                        currentWaypoint++;
+                    }
+                    finish = true;
                 }
             }
         }

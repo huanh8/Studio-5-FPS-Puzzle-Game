@@ -50,6 +50,7 @@ namespace Unity.FPS.Gameplay
 
         void OnTriggerEnter(Collider other)
         {
+            Debug.Log("Hello");
             PlayerCharacterController pickingPlayer = other.GetComponent<PlayerCharacterController>();
 
             if (pickingPlayer != null)

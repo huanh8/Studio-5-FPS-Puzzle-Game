@@ -5,20 +5,31 @@ using UnityEngine.Events;
 
 public class TriggerTest : MonoBehaviour
 {
-    [SerializeField] private UnityEvent myTriggerEvent;
-
-    //collider with raycast
+    [SerializeField] UnityEvent startTriggerEvent;
+    [SerializeField] UnityEvent afterTriggerEvent;
 
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other);
         if (other.tag == "Player")
         {
-            myTriggerEvent.Invoke();
+            startTriggerEvent.Invoke();
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log(other);
+        if (other.tag == "Player")
+        {
+            afterTriggerEvent.Invoke();
         }
     }
     public void FireTrigger()
     {
-        myTriggerEvent.Invoke();
+        startTriggerEvent.Invoke();
+    }
+    public void FireAfterTrigger()
+    {
+        afterTriggerEvent.Invoke();
     }
 }

@@ -20,4 +20,14 @@ public class KyleMove : MonoBehaviour
             currentWaypoint++;
         }
     }
+
+    public void StopMoving()
+    {
+        speed = 0;
+    }
+
+    public void StartMoving()
+    {
+        speed = 1;
+    }
 }
