@@ -26,7 +26,9 @@ public class TriggerTest : MonoBehaviour
     }
     public void FireTrigger()
     {
+        Debug.Log("FireTrigger");
         startTriggerEvent.Invoke();
+
     }
     public void FireAfterTrigger()
     {

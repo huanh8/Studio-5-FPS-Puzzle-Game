@@ -131,7 +131,11 @@ namespace Unity.FPS.Gameplay
                         }
 
                         if (hit.collider.gameObject.GetComponent<TriggerTest>())
+                        {
+                            Debug.Log("I am the trigger object: " + hit.collider.gameObject.name);
                             hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
+                        }
+
 
                         if (tag == "Lens")
                             HitEffect[i].SetActive(false);
