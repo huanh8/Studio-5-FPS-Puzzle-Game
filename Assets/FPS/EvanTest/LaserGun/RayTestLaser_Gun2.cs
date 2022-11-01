@@ -88,7 +88,7 @@ namespace Unity.FPS.Gameplay
 
             if (Physics.Raycast(lineStartPoint, direction, out hit, range))
             {
-
+                Debug.Log(hit.collider.gameObject.name);
                 lineRenderer.SetPosition(0, lineStartPoint);
                 lineRenderer.SetPosition(1, hit.point);
                 //Debug.DrawRay(lineStartPoint, direction * hit.distance, Color.white);
@@ -117,7 +117,10 @@ namespace Unity.FPS.Gameplay
                     triggerObject.SetTriggerOff();
 
                 if (hit.collider.gameObject.GetComponent<TriggerTest>())
+                {
+                    Debug.Log("I am the trigger object: " + hit.collider.gameObject.name);
                     hit.collider.gameObject.GetComponent<TriggerTest>().FireTrigger();
+                }
 
                 if (tag == "Lens")
                 {
