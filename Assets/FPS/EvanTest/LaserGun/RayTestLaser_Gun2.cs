@@ -35,7 +35,13 @@ namespace Unity.FPS.Gameplay
         private AudioSource proceduralAudioSource;
         float timer = 2.0f;
         public bool canShoot = true;
-
+        // on disable clear the line renderer
+        void OnDisable()
+        {
+            lineRenderer.enabled = false;
+            HitEffect.SetActive(false);
+            StartEffect.SetActive(false);
+        }
         void Start()
         {
             GameObject player = GameObject.Find("Player");
