@@ -8,19 +8,36 @@ namespace Unity.FPS.UI
     {
         public GameObject playerObject;
         public GameObject storyManager;
-        void OnDisable()
+        public GameObject mainMenu;
+
+        public void OnStartGame()
         {
             if (playerObject != null)
                 playerObject.SetActive(true);
             if (storyManager != null)
                 storyManager.SetActive(true);
+            if (mainMenu != null)
+                mainMenu.SetActive(false);
         }
-        void OnEnable()
+        public void reLoadTheSceen()
         {
-            if (playerObject != null)
-                playerObject.SetActive(false);
-            if (storyManager != null)
-                storyManager.SetActive(false);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+        public void QuitGame()
+        {
+            Application.Quit();
+        }  
+        //press ESC to Display the main menu
+        void Update()
+        {   
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                reLoadTheSceen();
+                // release the cursor
+                Cursor.lockState = CursorLockMode.None;
+            }
+            // press key TAB
         }
     }
 }
