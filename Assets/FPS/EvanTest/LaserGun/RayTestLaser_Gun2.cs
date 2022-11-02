@@ -34,6 +34,7 @@ namespace Unity.FPS.Gameplay
         private ProceduralAudioController proceduralAudioController;
         private AudioSource proceduralAudioSource;
         float timer = 2.0f;
+        public bool canShoot = true;
 
         void Start()
         {
@@ -52,7 +53,7 @@ namespace Unity.FPS.Gameplay
         [System.Obsolete]
         void Update()
         {
-            if (InputHandler.GetFireInputHeld())
+            if (InputHandler.GetFireInputHeld() && canShoot)
             {
                 lineRenderer.enabled = true;
                 ShootRay();
