@@ -45,8 +45,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 1
+  m_Intensity: 8
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -201,7 +201,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0.13308258
-        value: 0.013
+        value: 0.008
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -687,6 +687,7 @@ MonoBehaviour:
   range: 1000
   HitOffset: 0
   proceduralAudioObject: {fileID: 222508036306738177}
+  canShoot: 1
 --- !u!1 &2867801751256125023
 GameObject:
   m_ObjectHideFlags: 0
@@ -10580,8 +10581,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 1
+  m_Intensity: 8
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -11512,7 +11513,7 @@ PrefabInstance:
     - target: {fileID: 4834288403571172998, guid: 1bf31dcebd3fc2a4293e86f40f0d78a0,
         type: 3}
       propertyPath: m_Volume
-      value: 0.05
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 4834288403571172998, guid: 1bf31dcebd3fc2a4293e86f40f0d78a0,
         type: 3}
