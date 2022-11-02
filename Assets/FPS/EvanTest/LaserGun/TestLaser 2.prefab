@@ -11511,6 +11511,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4834288403571172998, guid: 1bf31dcebd3fc2a4293e86f40f0d78a0,
         type: 3}
+      propertyPath: m_Volume
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834288403571172998, guid: 1bf31dcebd3fc2a4293e86f40f0d78a0,
+        type: 3}
       propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
       value: 1
       objectReference: {fileID: 0}
@@ -11518,6 +11523,11 @@ PrefabInstance:
         type: 3}
       propertyPath: autoPlay
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834288403571172999, guid: 1bf31dcebd3fc2a4293e86f40f0d78a0,
+        type: 3}
+      propertyPath: masterVolume
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4834288403571173000, guid: 1bf31dcebd3fc2a4293e86f40f0d78a0,
         type: 3}
